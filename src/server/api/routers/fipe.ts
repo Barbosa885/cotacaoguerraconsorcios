@@ -27,6 +27,7 @@ export const fipeRouter = createTRPCRouter({
   }),
 
   getModelos: publicProcedure
+  // Recebe o código da marca como entrada
   .input(z.object({ codigoMarca: z.string() }))
   .query(async ({ input }) => {
     const { codigoMarca } = input;
@@ -36,7 +37,7 @@ export const fipeRouter = createTRPCRouter({
       const res = await fetch(url);
       const data = await res.json();
 
-      // A resposta da API FIPE tem a estrutura { modelos: [], anos: [] }
+      // A resposta da API tem a estrutura { modelos: [], anos: [] }
       return data.modelos; // Retorna os dados dos modelos
     } catch (error) {
       console.error("Erro ao buscar modelos da FIPE:", error);
@@ -45,6 +46,7 @@ export const fipeRouter = createTRPCRouter({
   }),
 
   getAnos: publicProcedure
+  // Recebe o código da marca e do modelo como entrada
   .input(z.object({ codigoMarca: z.string(), codigoModelo: z.string() }))
   .query(async ({ input }) => {
     const { codigoMarca, codigoModelo } = input;
@@ -58,6 +60,24 @@ export const fipeRouter = createTRPCRouter({
     } catch (error) {
       console.error("Erro ao buscar anos da FIPE:", error);
       throw new Error("Não foi possível carregar os anos de veículos. Tente novamente mais tarde.");
+    }
+  }),
+
+  getValor: publicProcedure
+  // Recebe o código da marca, do modelo e do ano como entrada
+  .input(z.object({ codigoMarca: z.string(), codigoModelo: z.string(), codigoAno: z.string() }))
+  .query(async ({ input }) => {
+    const { codigoMarca, codigoModelo, codigoAno } = input;
+    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${codigoMarca}/modelos/${codigoModelo}/anos/${codigoAno}`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      return data; // Retorna os dados do valor
+    } catch (error) {
+      console.error("Erro ao buscar valor da FIPE:", error);
+      throw new Error("Não foi possível carregar o valor do veículo. Tente novamente mais tarde.");
     }
   }),
 });
