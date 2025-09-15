@@ -43,4 +43,21 @@ export const fipeRouter = createTRPCRouter({
       throw new Error("Não foi possível carregar os modelos de veículos. Tente novamente mais tarde.");
     }
   }),
+
+  getAnos: publicProcedure
+  .input(z.object({ codigoMarca: z.string(), codigoModelo: z.string() }))
+  .query(async ({ input }) => {
+    const { codigoMarca, codigoModelo } = input;
+    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${codigoMarca}/modelos/${codigoModelo}/anos`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      return data; // Retorna os dados dos anos
+    } catch (error) {
+      console.error("Erro ao buscar anos da FIPE:", error);
+      throw new Error("Não foi possível carregar os anos de veículos. Tente novamente mais tarde.");
+    }
+  }),
 });
