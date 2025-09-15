@@ -1,6 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "./ui/button";
+import { 
+  Select, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue, 
+  SelectContent 
+} from "./ui/select";
 
 interface ValuationSimulatorProps {
   fipePrice: string;
@@ -38,35 +46,39 @@ export const ValuationSimulator = ({ fipePrice }: ValuationSimulatorProps) => {
       <h3 className="text-xl font-semibold mb-4">Simulador de Cotação</h3>
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Quilometragem</label>
-          <select 
-            onChange={(e) => setMileage(e.target.value)} 
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          <Select 
+            onValueChange={(value) => setMileage(value)} 
           >
-            <option value="">Selecione a Quilometragem</option>
-            <option value="low">Baixa (&lt; 10.000km)</option>
-            <option value="high">Alta (&gt; 50.000km)</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecione a Quilometragem" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="low">Baixa (&lt; 10.000km)</SelectItem>
+              <SelectItem value="high">Alta (&gt; 50.000km)</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Estado do Veículo</label>
-          <select 
-            onChange={(e) => setCondition(e.target.value)}
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          <Select 
+            onValueChange={(value) => setCondition(value)}
           >
-            <option value="">Selecione o Estado</option>
-            <option value="perfect">Perfeito</option>
-            <option value="good">Bom</option>
-            <option value="average">Médio</option>
-            <option value="bad">Precisa de Reparos</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecione o estado do veículo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="perfect">Perfeito</SelectItem>
+              <SelectItem value="good">Bom</SelectItem>
+              <SelectItem value="average">Médio</SelectItem>
+              <SelectItem value="bad">Precisa de Reparos</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <button 
+        <Button
           onClick={calculateSuggestedValue}
           className="w-full px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700"
         >
           Calcular Valor Sugerido
-        </button>
+        </Button>
       </div>
       {suggestedValue > 0 && (
         <div className="mt-4 text-center">
