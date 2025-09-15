@@ -1,69 +1,90 @@
-import Link from "next/link";
+'use client'
 
-import { LatestPost } from "~/app/_components/post";
-import { auth } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
+import { useState } from "react";
+import { api } from "~/trpc/react";
 
-export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
-  const session = await auth();
+export default function Home() {
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
 
-  if (session?.user) {
-    void api.post.getLatest.prefetch();
-  }
+  // Hook do tRPC para chamar o procedimento getMarcas do "router" fipe
+  const { data: brands, isLoading: isLoadingBrands, error } = api.fipe.getBrands.useQuery();
+
+  const { data: models, isLoading: isLoadingModels, error: modelosError } = api.fipe.getModels.useQuery(
+    { brandCode: selectedBrand },
+    { enabled: !!selectedBrand, } // Só faz a requisição se uma marca estiver selecionada 
+  );
+
+  const { data: years, isLoading: isLoadingYears, error: anosError } = api.fipe.getYears.useQuery(
+    { brandCode: selectedBrand, modelCode: selectedModel },
+    { enabled: !!selectedBrand && !!selectedModel } // Só faz a requisição quando marca e modelo estiverem selecionadas
+  );
+
+  const { data: vehicleDetails, isLoading: isLoadingVehicleDetails, error: vehicleDetailsError } = api.fipe.getPrice.useQuery(
+    { brandCode: selectedBrand, modelCode: selectedModel, yearCode: selectedYear },
+    { enabled: !!selectedBrand && !!selectedModel && !!years } // Só faz a requisição quando marca, modelo e ano estiverem selecionados
+  );
+
+  if (error) return <div>Erro ao carregar marcas: {error.message}</div>;
 
   return (
-    <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-          </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello ? hello.greeting : "Loading tRPC query..."}
-            </p>
+    <div>
+      <select onChange={(e) => setSelectedBrand(e.target.value)}>
+        <option>Selecione a Marca</option>
+        {isLoadingBrands && <option>Carregando...</option>}
+        {brands?.map((brand) => (
+          <option key={brand.codigo} value={brand.codigo}>
+            {brand.nome}
+          </option>
+        ))}
+      </select>
 
-            <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-center text-2xl text-white">
-                {session && <span>Logged in as {session.user?.name}</span>}
-              </p>
-              <Link
-                href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-              >
-                {session ? "Sign out" : "Sign in"}
-              </Link>
+      {selectedBrand && (
+        <select onChange={(e) => setSelectedModel(e.target.value)}>
+          <option>Selecione o Modelo</option>
+          {isLoadingModels && <option>Carregando...</option>}
+          {models?.map((model) => (
+            <option key={model.codigo} value={model.codigo}>
+              {model.nome}
+            </option>
+          ))}
+        </select>
+      )}
+
+      {selectedModel && (
+        <select onChange={(e) => setSelectedYear(e.target.value)}>
+          <option>Selecione o Ano</option>
+          {isLoadingYears && <option>Carregando...</option>}
+          {years?.map((year) => (
+            <option key={year.codigo} value={year.codigo}>
+              {year.nome}
+            </option>
+          ))}
+        </select>
+      )}
+
+      {selectedYear && (
+        <div>
+          {isLoadingVehicleDetails && <p>Carregando detalhes do veículo...</p>}
+          {vehicleDetailsError && <p>Erro ao carregar detalhes do veículo: {vehicleDetailsError.message}</p>}
+          {vehicleDetails && (
+            <div>
+              <h2>Detalhes do Veículo</h2>
+              <p>Marca: {vehicleDetails.Marca}</p>
+              <p>Modelo: {vehicleDetails.Modelo}</p>
+              <p>Ano: {vehicleDetails.AnoModelo}</p>
+              <p>Combustível: {vehicleDetails.Combustivel}</p>
+              <p>Código Fipe: {vehicleDetails.CodigoFipe}</p>
+              <p>Preço: {vehicleDetails.Valor}</p>
+              <p>Mês de Referência: {vehicleDetails.MesReferencia}</p>
+              <p>Tipo de Combustível: {vehicleDetails.TipoVeiculo === 1 ? 'Carro' : vehicleDetails.TipoVeiculo === 2 ? 'Moto' : 'Caminhão'}</p>
+              <p>Símbolo de Combustível: {vehicleDetails.SiglaCombustivel}</p>
             </div>
-          </div>
-
-          {session?.user && <LatestPost />}
+          )}
         </div>
-      </main>
-    </HydrateClient>
+      )}
+
+    </div>
   );
 }
