@@ -9,7 +9,7 @@ import {
 export const fipeRouter = createTRPCRouter({
 
   // Procedimento para obter as marcas dos carros
-  getMarcas: publicProcedure
+  getBrands: publicProcedure
   .query(async () => {
     // Endpoint da API FIPE para obter as marcas dos carros
     const url = "https://parallelum.com.br/fipe/api/v1/carros/marcas";
@@ -26,12 +26,12 @@ export const fipeRouter = createTRPCRouter({
     }
   }),
 
-  getModelos: publicProcedure
+  getModels: publicProcedure
   // Recebe o código da marca como entrada
-  .input(z.object({ codigoMarca: z.string() }))
+  .input(z.object({ brandCode: z.string() }))
   .query(async ({ input }) => {
-    const { codigoMarca } = input;
-    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${codigoMarca}/modelos`;
+    const { brandCode } = input;
+    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos`;
 
     try {
       const res = await fetch(url);
@@ -45,12 +45,12 @@ export const fipeRouter = createTRPCRouter({
     }
   }),
 
-  getAnos: publicProcedure
+  getYears: publicProcedure
   // Recebe o código da marca e do modelo como entrada
-  .input(z.object({ codigoMarca: z.string(), codigoModelo: z.string() }))
+  .input(z.object({ brandCode: z.string(), modelCode: z.string() }))
   .query(async ({ input }) => {
-    const { codigoMarca, codigoModelo } = input;
-    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${codigoMarca}/modelos/${codigoModelo}/anos`;
+    const { brandCode, modelCode} = input;
+    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos/${modelCode}/anos`;
 
     try {
       const res = await fetch(url);
@@ -63,12 +63,12 @@ export const fipeRouter = createTRPCRouter({
     }
   }),
 
-  getValor: publicProcedure
+  getPrice: publicProcedure
   // Recebe o código da marca, do modelo e do ano como entrada
-  .input(z.object({ codigoMarca: z.string(), codigoModelo: z.string(), codigoAno: z.string() }))
+  .input(z.object({ brandCode: z.string(), modelCode: z.string(), yearCode: z.string() }))
   .query(async ({ input }) => {
-    const { codigoMarca, codigoModelo, codigoAno } = input;
-    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${codigoMarca}/modelos/${codigoModelo}/anos/${codigoAno}`;
+    const { brandCode, modelCode, yearCode } = input;
+    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`;
 
     try {
       const res = await fetch(url);
