@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "./ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Input } from "./ui/input";
 
 interface FinancialSimulatorProps {
   baseValue: string; // O valor base para o cálculo (pode ser o da FIPE ou o sugerido)
@@ -33,7 +36,7 @@ export const FinancialSimulator = ({ baseValue }: FinancialSimulatorProps) => {
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">Valor de Entrada (R$)</label>
-          <input 
+          <Input 
             type="number"
             value={downPayment}
             onChange={(e) => setDownPayment(parseFloat(e.target.value))}
@@ -42,23 +45,27 @@ export const FinancialSimulator = ({ baseValue }: FinancialSimulatorProps) => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">Prazo (meses)</label>
-          <select 
-            onChange={(e) => setTerm(parseInt(e.target.value))}
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          <Select
+            onValueChange={(value) => setTerm(parseInt(value))}
           >
-            <option value="12">12 meses</option>
-            <option value="24">24 meses</option>
-            <option value="36">36 meses</option>
-            <option value="48">48 meses</option>
-            <option value="60">60 meses</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecione o Prazo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="12">12 meses</SelectItem>
+              <SelectItem value="24">24 meses</SelectItem>
+              <SelectItem value="36">36 meses (3 anos)</SelectItem>
+              <SelectItem value="48">48 meses (4 anos)</SelectItem>
+              <SelectItem value="60">60 meses (5 anos)</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <button 
+        <Button
           onClick={calculateMonthlyPayment}
           className="w-full px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700"
         >
           Simular
-        </button>
+        </Button>
       </div>
       {monthlyPayment > 0 && (
         <div className="mt-4 text-center">

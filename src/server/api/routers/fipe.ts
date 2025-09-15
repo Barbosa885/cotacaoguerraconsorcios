@@ -47,7 +47,7 @@ export const fipeRouter = createTRPCRouter({
 
   getYears: publicProcedure
   // Recebe o código da marca e do modelo como entrada
-  .input(z.object({ brandCode: z.string(), modelCode: z.string() }))
+  .input(z.object({ brandCode: z.string(), modelCode: z.coerce.string() }))
   .query(async ({ input }) => {
     const { brandCode, modelCode} = input;
     const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos/${modelCode}/anos`;
@@ -67,12 +67,15 @@ export const fipeRouter = createTRPCRouter({
   // Recebe o código da marca, do modelo e do ano como entrada
   .input(z.object({ 
     brandCode: z.string().optional(), 
-    modelCode: z.string().optional(), 
+    modelCode: z.coerce.string().optional(),
     yearCode: z.string().optional() 
   }))
     .query(async ({ input }) => {
+
       const { brandCode, modelCode, yearCode } = input;
+
       if (!brandCode || !modelCode || !yearCode) return null;
+
       const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`;
 
     try {
