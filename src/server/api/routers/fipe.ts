@@ -17,7 +17,7 @@ export const fipeRouter = createTRPCRouter({
       // Faz a requisição para a API FIPE
     try {
       const res = await fetch(url);
-      const data = await res.json();
+      const data = await res.json() as { codigo: string; nome: string }[];
 
       return data; // Retorna os dados das marcas
     } catch (error) {
@@ -35,7 +35,7 @@ export const fipeRouter = createTRPCRouter({
 
     try {
       const res = await fetch(url);
-      const data = await res.json();
+      const data = await res.json() as { modelos: { codigo: string; nome: string }[]; anos: { codigo: string; nome: string }[] };
 
       // A resposta da API tem a estrutura { modelos: [], anos: [] }
       return data.modelos; // Retorna os dados dos modelos
@@ -54,7 +54,7 @@ export const fipeRouter = createTRPCRouter({
 
     try {
       const res = await fetch(url);
-      const data = await res.json();
+      const data = await res.json() as { codigo: string; nome: string }[];
 
       return data; // Retorna os dados dos anos
     } catch (error) {
@@ -65,10 +65,15 @@ export const fipeRouter = createTRPCRouter({
 
   getPrice: publicProcedure
   // Recebe o código da marca, do modelo e do ano como entrada
-  .input(z.object({ brandCode: z.string(), modelCode: z.string(), yearCode: z.string() }))
-  .query(async ({ input }) => {
-    const { brandCode, modelCode, yearCode } = input;
-    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`;
+  .input(z.object({ 
+    brandCode: z.string().optional(), 
+    modelCode: z.string().optional(), 
+    yearCode: z.string().optional() 
+  }))
+    .query(async ({ input }) => {
+      const { brandCode, modelCode, yearCode } = input;
+      if (!brandCode || !modelCode || !yearCode) return null;
+      const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`;
 
     try {
       const res = await fetch(url);
