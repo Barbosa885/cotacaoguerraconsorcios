@@ -14,7 +14,7 @@ export const fipeRouter = createTRPCRouter({
     // Endpoint da API FIPE para obter as marcas dos carros
     const url = "https://parallelum.com.br/fipe/api/v1/carros/marcas";
 
-    // Faz a requisição para a API FIPE
+      // Faz a requisição para a API FIPE
     try {
       const res = await fetch(url);
       const data = await res.json();
@@ -23,6 +23,24 @@ export const fipeRouter = createTRPCRouter({
     } catch (error) {
       console.error("Erro ao buscar marcas da FIPE:", error);
       throw new Error("Não foi possível carregar as marcas de veículos. Tente novamente mais tarde.");
+    }
+  }),
+
+  getModelos: publicProcedure
+  .input(z.object({ codigoMarca: z.string() }))
+  .query(async ({ input }) => {
+    const { codigoMarca } = input;
+    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${codigoMarca}/modelos`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      // A resposta da API FIPE tem a estrutura { modelos: [], anos: [] }
+      return data.modelos; // Retorna os dados dos modelos
+    } catch (error) {
+      console.error("Erro ao buscar modelos da FIPE:", error);
+      throw new Error("Não foi possível carregar os modelos de veículos. Tente novamente mais tarde.");
     }
   }),
 });
