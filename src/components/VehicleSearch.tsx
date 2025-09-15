@@ -5,7 +5,7 @@ import { api } from "~/trpc/react";
 
 // Props que o componente vai receber
 interface VehicleSearchProps {
-  onVehicleSelected: (data: { codigoMarca: string; codigoModelo: string; codigoAno: string; } | null) => void;
+  onVehicleSelected: (data: { brandCode: string; modelCode: string; yearCode: string; } | null) => void;
 }
 
 export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
@@ -25,9 +25,9 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
   useEffect(() => {
     if (selectedBrand && selectedModel && selectedYear) {
       onVehicleSelected({
-        codigoMarca: selectedBrand,
-        codigoModelo: selectedModel,
-        codigoAno: selectedYear
+        brandCode: selectedBrand,
+        modelCode: selectedModel,
+        yearCode: selectedYear
       });
     } else {
       onVehicleSelected(null);

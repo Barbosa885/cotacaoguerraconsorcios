@@ -65,17 +65,19 @@ export const fipeRouter = createTRPCRouter({
 
   getPrice: publicProcedure
   // Recebe o código da marca, do modelo e do ano como entrada
-  .input(z.object({ brandCode: z.string(), modelCode: z.string(), yearCode: z.string() }).nullable())
-  .query(async ({ input }) => {
-
-    if (!input) return null;
-
-    const { brandCode, modelCode, yearCode } = input;
-    const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`;
+  .input(z.object({ 
+    brandCode: z.string().optional(), 
+    modelCode: z.string().optional(), 
+    yearCode: z.string().optional() 
+  }))
+    .query(async ({ input }) => {
+      const { brandCode, modelCode, yearCode } = input;
+      if (!brandCode || !modelCode || !yearCode) return null;
+      const url = `https://parallelum.com.br/fipe/api/v1/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`;
 
     try {
       const res = await fetch(url);
-      const data = await res.json() as { Valor: string; Marca: string; Modelo: string; AnoModelo: number; Combustivel: string; CodigoFipe: string; MesReferencia: string; TipoVeiculo: number; SiglaCombustivel: string; };
+      const data = await res.json();
 
       return data; // Retorna os dados do valor
     } catch (error) {

@@ -1,36 +1,46 @@
 'use client'
 
 import { useState } from "react";
+import { FinancialSimulator } from "~/components/FinancialSimulator";
+import { ValuationSimulator } from "~/components/ValuationSimulator";
 import { VehicleSearch } from "~/components/VehicleSearch";
+import { ContactForm } from "~/components/ContactForm";
+
 import { api } from "~/trpc/react";
 
 export default function HomePage() {
-  const [selectedVehicleData, setSelectedVehicleData] = useState(null);
+  const [selectedVehicleData, setSelectedVehicleData] = useState(null);
 
-  // Aqui você continua a usar o tRPC para buscar o valor do veículo,
-  // mas agora com os dados que vêm do componente filho
-  const { data: valorVeiculo, isLoading: isLoadingValor } = api.fipe.getPrice.useQuery(
-    selectedVehicleData,
-    { enabled: !!selectedVehicleData }
-  );
+  const { data: vehicleData, isLoading: isLoadingValor } = api.fipe.getPrice.useQuery(
+    selectedVehicleData,
+    { enabled: !!selectedVehicleData }
+  );
+  
+  // Use uma variável para o valor, para evitar erros de tipagem e de acesso
+  const vehiclePrice = vehicleData ? vehicleData.Valor : null;
 
-  return (
-    <main>
-      <h1>Avaliação e Financiamento de Veículos</h1>
-      <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
+  return (
+    <main className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold text-center mb-8">Avaliação e Financiamento de Veículos</h1>
+      <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
 
-      {isLoadingValor && <p>Carregando valor FIPE...</p>}
-      
-      {valorVeiculo && (
-        <section>
-          <h2>Detalhes do Veículo</h2>
-          <p>Valor FIPE: {valorVeiculo.Valor}</p>
-          
-          {/* Aqui você vai adicionar os próximos componentes: */}
-          {/* <ValuationSimulator valorFipe={valorVeiculo.Valor} /> */}
-          {/* <FinancialSimulator valorBase={valorVeiculo.Valor} /> */}
-        </section>
-      )}
-    </main>
-  );
+      {isLoadingValor && <p className="text-center">Carregando valor FIPE...</p>}
+      
+      {vehiclePrice && (
+        <section className="mt-8 p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-center mb-6">Detalhes do Veículo</h2>
+          <div className="mb-6 text-center">
+            <p className="text-lg text-gray-700">Valor FIPE:</p>
+            <p className="text-4xl font-extrabold text-blue-600 mt-1">{vehiclePrice}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ValuationSimulator fipePrice={vehiclePrice} />
+            <FinancialSimulator baseValue={vehiclePrice} />
+          </div>
+        </section>
+      )}
+        <ContactForm />
+    </main>
+  );
 }
