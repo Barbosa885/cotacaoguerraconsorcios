@@ -14,7 +14,7 @@ export default function HomePage(){
           oficiais da Tabela FIPE. Tudo em um só lugar, de forma rápida e segura.
         </p>
         <div className="mt-8">
-          <Link href="/busca-geral">
+          <Link href="/cotacao">
             <Button size="lg" className="px-8 py-6 text-lg font-semibold bg-blue-800 text-white hover:bg-blue-900">
               Busque um carro novo
               <ArrowRight className="ml-2 h-5 w-5" />
