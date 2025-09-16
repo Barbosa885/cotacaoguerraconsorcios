@@ -7,7 +7,7 @@ import { Textarea } from './ui/textarea';
 
 export const ContactForm = () => {
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto mt-12">
+    <div className="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Fale Conosco</h2>
       <p className="text-gray-600 text-center mb-6">
         Se você tiver alguma dúvida ou sugestão, entre em contato conosco.
@@ -30,6 +30,16 @@ export const ContactForm = () => {
             type="email" 
             id="email" 
             name="email" 
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="subject" className="block text-sm font-medium text-gray-700">Assunto</label>
+          <Input 
+            type="text" 
+            id="subject" 
+            name="subject" 
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
