@@ -11,25 +11,43 @@ import {
 } from "./ui/select";
 import { Skeleton } from "./ui/skeleton";
 
+type VehicleType = "carros" | "motos" | "caminhoes";
+
 interface VehicleSearchProps {
-  onVehicleSelected: (data: { brandCode: string; modelCode: string; yearCode: string; } | null) => void;
+  onVehicleSelected: (data: { 
+    brandCode: string; 
+    modelCode: string; 
+    yearCode: string; 
+    vehicleType: VehicleType;
+  } | null) => void;
 }
 
 export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
+  const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType>("carros");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
 
-  const { data: brands, isLoading: isLoadingBrands } = api.fipe.getBrands.useQuery();
+  const { data: brands, isLoading: isLoadingBrands } = api.fipe.getBrands.useQuery(
+    { vehicleType: selectedVehicleType },
+  );
 
   const { data: models, isLoading: isLoadingModels } = api.fipe.getModels.useQuery(
-    { brandCode: selectedBrand },
+    { brandCode: selectedBrand, vehicleType: selectedVehicleType },
     { enabled: !!selectedBrand }
   );
   const { data: years, isLoading: isLoadingYears } = api.fipe.getYears.useQuery(
-    { brandCode: selectedBrand, modelCode: selectedModel },
+    { brandCode: selectedBrand, modelCode: selectedModel, vehicleType: selectedVehicleType },
     { enabled: !!selectedModel && !!selectedModel }
   );
+
+  const handleVehicleTypeChange = (value: VehicleType) => {
+    setSelectedVehicleType(value);
+
+    setSelectedBrand("");
+    setSelectedModel("");
+    setSelectedYear("");
+  }
 
   const handleBrandChange = (value: string) => {
     setSelectedBrand(value);
@@ -47,8 +65,9 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
   }
 
   useEffect(() => {
-    if (selectedBrand && selectedModel && selectedYear) {
+    if (selectedVehicleType && selectedBrand && selectedModel && selectedYear) {
       onVehicleSelected({
+        vehicleType: selectedVehicleType,
         brandCode: selectedBrand,
         modelCode: selectedModel,
         yearCode: selectedYear
@@ -56,11 +75,25 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
     } else {
       onVehicleSelected(null);
     }
-  }, [selectedBrand, selectedModel, selectedYear, onVehicleSelected]);
+  }, [selectedVehicleType, selectedBrand, selectedModel, selectedYear, onVehicleSelected]);
 
   return (
       <div className="container mx-auto">
         <div className="flex gap-4 mx-auto max-w-4xl">
+
+          <Select 
+            onValueChange={handleVehicleTypeChange} 
+            value={selectedVehicleType}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Tipo de veículo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="carros">Carros e utilitários pequenos</SelectItem>
+              <SelectItem value="motos">Motos</SelectItem>
+              <SelectItem value="caminhoes">Caminhões e micro-ônibus</SelectItem>
+            </SelectContent>
+          </Select>
 
           <Select onValueChange={handleBrandChange} value={selectedBrand}>
             <SelectTrigger className="w-full">
