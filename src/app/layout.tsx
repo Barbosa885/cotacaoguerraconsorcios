@@ -30,7 +30,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${poppins.variable}`}>
-      <body>
+        <body>
         <Navbar />
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
