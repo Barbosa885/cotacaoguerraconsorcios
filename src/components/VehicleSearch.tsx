@@ -9,8 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Skeleton } from "./ui/skeleton";
 
-// Props que o componente vai receber
 interface VehicleSearchProps {
   onVehicleSelected: (data: { brandCode: string; modelCode: string; yearCode: string; } | null) => void;
 }
@@ -21,6 +21,7 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
   const [selectedYear, setSelectedYear] = useState("");
 
   const { data: brands, isLoading: isLoadingBrands } = api.fipe.getBrands.useQuery();
+
   const { data: models, isLoading: isLoadingModels } = api.fipe.getModels.useQuery(
     { brandCode: selectedBrand },
     { enabled: !!selectedBrand }
@@ -29,6 +30,22 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
     { brandCode: selectedBrand, modelCode: selectedModel },
     { enabled: !!selectedModel && !!selectedModel }
   );
+
+  const handleBrandChange = (value: string) => {
+    setSelectedBrand(value);
+    setSelectedModel("");
+    setSelectedYear("");
+  }
+
+  const handleModelChange = (value: string) => {
+    setSelectedModel(value);
+    setSelectedYear("");
+  }
+
+  const handleYearChange = (value: string) => {
+    setSelectedYear(value);
+  }
+
   useEffect(() => {
     if (selectedBrand && selectedModel && selectedYear) {
       onVehicleSelected({
@@ -42,25 +59,20 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
   }, [selectedBrand, selectedModel, selectedYear, onVehicleSelected]);
 
   return (
-    <div className="min-h-screen p-8">
       <div className="container mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Consulta de preço</h2>
-          <p className="text-lg text-gray-300">
-            Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua
-            preferência. Você também pode utilizar o campo "busca" em cada etapa do formulário para
-            localizar a informação desejada mais rapidamente.
-          </p>
-        </div>
+        <div className="flex gap-4 mx-auto max-w-4xl">
 
-        <div className="flex gap-4 max-w-md mx-auto">
-          <Select onValueChange={(value) => setSelectedBrand(value)} value={selectedBrand}>
+          <Select onValueChange={handleBrandChange} value={selectedBrand}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Selecione a Marca" />
             </SelectTrigger>
             <SelectContent>
               {isLoadingBrands ? (
-                <SelectItem value="loading" disabled>Carregando...</SelectItem>
+                <div className="p-4">
+                  <Skeleton className="h-8 w-full mb-1" />
+                  <Skeleton className="h-8 w-full mb-1" />
+                  <Skeleton className="h-8 w-full" />
+                </div>
               ) : (
                 brands?.map((brand) => (
                   <SelectItem key={brand.codigo} value={brand.codigo}>{brand.nome}</SelectItem>
@@ -69,41 +81,60 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
             </SelectContent>
           </Select>
 
-          {selectedBrand && (
-            <Select onValueChange={(value) => setSelectedModel(value)} value={selectedModel}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecione o Modelo" />
-              </SelectTrigger>
-              <SelectContent>
-                {isLoadingModels ? (
-                  <SelectItem value="loading" disabled>Carregando...</SelectItem>
-                ) : (
-                  models?.map((model) => (
-                    <SelectItem key={model.codigo} value={model.codigo}>{model.nome}</SelectItem>
-                  ))
-                )}
-              </SelectContent>
-            </Select>
-          )}
-
-          {selectedModel && (
-            <Select onValueChange={(value) => setSelectedYear(value)} value={selectedYear}>
-              <SelectTrigger className="w-full">
+          <Select 
+            onValueChange={handleModelChange} 
+            value={selectedModel}
+            disabled={!selectedBrand}
+          >
+            <SelectTrigger className={`w-full ${!selectedBrand ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              <SelectValue placeholder="Selecione o Modelo" />
+            </SelectTrigger>
+            <SelectContent>
+              {isLoadingModels ? (
+                <div className="p-4">
+                  <Skeleton className="h-8 w-full mb-1"/>
+                  <Skeleton className="h-8 w-full mb-1"/>
+                  <Skeleton className="h-8 w-full"/>
+                </div>
+              ) : selectedBrand ? (
+                models?.map((model) => (
+                  <SelectItem key={model.codigo} value={model.codigo}>{model.nome}</SelectItem>
+                )) || (
+                  <div className="p-4 text-sm text-gray-500">Nenhum modelo encontrado</div>
+                )
+              ) : (
+                <div className="p-4 text-sm text-gray-500">Selecione uma marca primeiro</div>
+              )}
+            </SelectContent>
+          </Select>
+          
+            <Select 
+              onValueChange={handleYearChange} 
+              value={selectedYear}
+              disabled={!selectedModel || !selectedBrand}
+            >
+              <SelectTrigger className={`w-full ${!selectedModel || !selectedBrand ? 'opacity-50 cursor-not-allowed' : ''}`}>
                 <SelectValue placeholder="Selecione o Ano" />
               </SelectTrigger>
               <SelectContent>
                 {isLoadingYears ? (
-                  <SelectItem value="loading" disabled>Carregando...</SelectItem>
-                ) : (
+                  <div className="p-4">
+                    <Skeleton className="h-8 w-full mb-1" />
+                    <Skeleton className="h-8 w-full mb-1" />
+                    <Skeleton className="h-8 w-full" />
+                  </div>
+                ) : selectedBrand && selectedModel ? (
                   years?.map((year) => (
                     <SelectItem key={year.codigo} value={year.codigo}>{year.nome}</SelectItem>
-                  ))
+                  )) || (
+                    <div className="p-4 text-sm text-gray-500">Nenhum ano encontrado</div>
+                  )
+                ) : (
+                  <div className="p-4 text-sm text-gray-500">Selecione um modelo primeiro</div>
                 )}
               </SelectContent>
             </Select>
-          )}
         </div>
       </div>
-    </div>
   );
 };
