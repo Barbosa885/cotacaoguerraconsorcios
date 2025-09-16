@@ -1,44 +1,43 @@
 'use client'
 
+import { ArrowRight } from "lucide-react";
 import { useState } from "react";
-import { FinancialSimulator } from "~/components/FinancialSimulator";
-import { ValuationSimulator } from "~/components/ValuationSimulator";
+import { CarDetailsCard, SkeletonCarDetailsCard } from "~/components/CarDetailsCard";
+import { Button } from "~/components/ui/button";
 import { VehicleSearch } from "~/components/VehicleSearch";
-import { ContactForm } from "~/components/ContactForm";
 
 import { api } from "~/trpc/react";
 
-export default function HomePage() {
+export default function PricePage() {
   const [selectedVehicleData, setSelectedVehicleData] = useState(null);
 
   const { data: vehicleData, isLoading: isLoadingValor } = api.fipe.getPrice.useQuery(
     selectedVehicleData,
     { enabled: !!selectedVehicleData }
   );
-  
-  // Use uma variável para o valor, para evitar erros de tipagem e de acesso
-  const vehiclePrice = vehicleData ? vehicleData.Valor : null;
 
   return (
-    <main className="container mx-auto p-4">
+    <div className="flex flex-col min-h-screen justify-center mx-auto p-4 bg-gray-50">
+      <h1 className="text-4xl font-bold text-center mb-8">Consulta de preço</h1>
       <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
+      {isLoadingValor && <SkeletonCarDetailsCard />}
 
-      {isLoadingValor && <p className="text-center">Carregando valor FIPE...</p>}
-      
-      {vehiclePrice && (
-        <section className="mt-8 p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold text-center mb-6">Detalhes do Veículo</h2>
-          <div className="mb-6 text-center">
-            <p className="text-lg text-gray-700">Valor FIPE:</p>
-            <p className="text-4xl font-extrabold text-blue-600 mt-1">{vehiclePrice}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <ValuationSimulator fipePrice={vehiclePrice} />
-            <FinancialSimulator baseValue={vehiclePrice} />
-          </div>
-        </section>
-      )}
-    </main>
+      {vehicleData && 
+        <div>
+          <div>
+            <CarDetailsCard vehicleData={vehicleData} />
+            <p className="mt-4 text-center text-gray-400">
+              * Os valores apresentados são baseados na Tabela FIPE e podem variar conforme o estado de conservação do veículo e outros fatores.
+            </p>
+          </div>
+          <div className="mt-24 flex justify-center">
+            <Button size="lg" className="px-4 py-6 text-lg font-semibold bg-blue-700 text-white hover:bg-blue-800">
+              Avalie seu veículo ou Simule um financiamento
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+      }
+    </div>
   );
 }
