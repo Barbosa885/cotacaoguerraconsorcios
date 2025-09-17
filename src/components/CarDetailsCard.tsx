@@ -1,4 +1,9 @@
-import { Badge, CalendarDays, Car, Hash } from "lucide-react";
+import { 
+  CalendarDays, 
+  Car, 
+  Fuel, 
+  Hash 
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -6,6 +11,7 @@ import {
   CardTitle
 } from "./ui/card"
 import { Skeleton } from "./ui/skeleton";
+import { Badge } from "./ui/badge";
 
 interface CarDetailsCardProps {
   vehicleData: {
@@ -57,6 +63,15 @@ const SkeletonCarDetailsCard = () => {
 }
 
 const CarDetailsCard = ({ vehicleData }: CarDetailsCardProps) => {
+  // Função que determina a cor do badge do combustível
+  const getFuelColor = (fuel: string) => {
+    if (fuel.toLowerCase().includes('gasolina')) return 'bg-orange-100 text-orange-800';
+    if (fuel.toLowerCase().includes('etanol')) return 'bg-green-100 text-green-800';
+    if (fuel.toLowerCase().includes('diesel')) return 'bg-yellow-100 text-yellow-800';
+    if (fuel.toLowerCase().includes('flex')) return 'bg-blue-100 text-blue-800';
+    if (fuel.toLowerCase().includes('híbrido') || fuel.toLowerCase().includes('hibrido')) return 'bg-emerald-100 text-emerald-800';
+    return 'bg-gray-100 text-gray-800';
+  };
 
   return (
     <Card className="w-full max-w-5xl mx-auto mt-8 shadow-lg border-0 bg-gradient-to-br from-slate-50 to-white overflow-hidden">
@@ -65,7 +80,10 @@ const CarDetailsCard = ({ vehicleData }: CarDetailsCardProps) => {
           <div className="flex-1 col justify-center items-center">
             <CardTitle className="text-2xl font-bold mb-1">{vehicleData.Modelo}</CardTitle>
             <p className="flex items-center space-x-2">
-              {vehicleData.Combustivel}
+              <Badge className={`${getFuelColor(vehicleData.Combustivel)}`} >
+                <Fuel className="mr-1 h-4 w-4" />
+                {vehicleData.Combustivel}
+              </Badge>
             </p>
           </div>
           <div className="text-right">
