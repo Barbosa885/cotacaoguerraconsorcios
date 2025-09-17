@@ -61,7 +61,7 @@ const CarDetailsCard = ({ vehicleData }: CarDetailsCardProps) => {
   return (
     <Card className="w-full max-w-5xl mx-auto mt-8 shadow-lg border-0 bg-gradient-to-br from-slate-50 to-white overflow-hidden">
       <CardHeader className="pb-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-        <div className="flex items-center justify-between">
+        <div className="flex mt-6 items-center justify-between">
           <div className="flex-1 col justify-center items-center">
             <CardTitle className="text-2xl font-bold mb-1">{vehicleData.Modelo}</CardTitle>
             <p className="flex items-center space-x-2">
