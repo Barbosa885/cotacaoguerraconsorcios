@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
@@ -30,6 +29,7 @@ import { cn } from '~/lib/utils';
 import { Dialog, DialogContent, DialogTrigger } from '~/components/ui/dialog';
 import { FinancingContactForm } from '~/components/FinancingContactForm';
 import { Skeleton } from '~/components/ui/skeleton';
+import { useSearchParams } from 'next/navigation';
 
 type VehicleData = {
   modelo: string;
@@ -69,9 +69,7 @@ const EvaluationLoading = () => {
   );
 }
 
-
-
-const VehicleEvaluationPage = () => {
+const VehicleEvaluationContent = () => {
   const searchParams = useSearchParams();
 
   // Estados para dados do veículo vindos da URL ou seleção manual
@@ -191,7 +189,6 @@ const VehicleEvaluationPage = () => {
   const monthlyPayment = calculateMonthlyPayment();
 
   return (
-    <Suspense fallback={<EvaluationLoading />}>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-8">
@@ -451,8 +448,15 @@ const VehicleEvaluationPage = () => {
           )}
         </div>
       </div>
-    </Suspense>
   );
 };
+
+const VehicleEvaluationPage = () => {
+  return (
+    <Suspense fallback={<EvaluationLoading />}>
+      <VehicleEvaluationContent />
+    </Suspense >
+  )
+}
 
 export default VehicleEvaluationPage;
