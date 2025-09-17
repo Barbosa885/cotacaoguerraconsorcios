@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
@@ -24,7 +24,7 @@ import {
   Info,
   Sparkles
 } from 'lucide-react';
-import { VehicleSearch } from '~/components/VehicleSearch';
+import { VehicleSearch, type VehicleType } from '~/components/VehicleSearch';
 import { api } from '~/trpc/react';
 import { cn } from '~/lib/utils';
 import { Dialog, DialogContent, DialogTrigger } from '~/components/ui/dialog';
@@ -42,14 +42,20 @@ type VehicleData = {
   hasDataFromFipe: boolean;
 } | null;
 
+type SelectedVehicleDataType = {
+  modelCode: string;
+  yearCode: string;
+  brandCode: string;
+  vehicleType: VehicleType;
+} | null;
+
 
 const VehicleEvaluationPage = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   // Estados para dados do veículo vindos da URL ou seleção manual
   const [vehicleData, setVehicleData] = useState<VehicleData>(null);
-  const [selectedVehicleData, setSelectedVehicleData] = useState(null);
+  const [selectedVehicleData, setSelectedVehicleData] = useState<SelectedVehicleDataType>(null);
 
   // Estados da avaliação
   const [mileage, setMileage] = useState("");
@@ -84,31 +90,31 @@ const VehicleEvaluationPage = () => {
     };
     
     if (urlParams.modelo && urlParams.valor) {
-      const valorNumerico = parseFloat(urlParams.valor.replace('.', '')) || 0;
+      const valorNumerico = parseFloat(urlParams.valor.replace('.', '')) ?? 0;
       setVehicleData({
         modelo: urlParams.modelo,
-        combustivel: urlParams.combustivel || '',
-        ano: urlParams.ano || '',
-        codigoFipe: urlParams.codigoFipe || '',
-        valor: urlParams.valor || '',
-        valorFormatado: urlParams.valorFormatado || '',
+        combustivel: urlParams.combustivel ?? '',
+        ano: urlParams.ano ?? '',
+        codigoFipe: urlParams.codigoFipe ?? '',
+        valor: urlParams.valor ?? '',
+        valorFormatado: urlParams.valorFormatado ?? '',
         valorNumerico,
-        referencia: urlParams.referencia || '',
+        referencia: urlParams.referencia ?? '',
         hasDataFromFipe: true
       });
     } else if (fetchedVehicleData) {
       const valorNumerico = parseFloat(
-        fetchedVehicleData.Valor?.replace(/[^\d,]/g, '').replace(',', '.') || '0'
+        fetchedVehicleData.Valor?.replace(/[^\d,]/g, '').replace(',', '.') ?? '0'
       );
       setVehicleData({
-        modelo: fetchedVehicleData.Modelo || '',
-        combustivel: fetchedVehicleData.Combustivel || '',
-        ano: fetchedVehicleData.AnoModelo?.toString() || '',
-        codigoFipe: fetchedVehicleData.CodigoFipe || '',
-        valor: fetchedVehicleData.Valor || '',
-        valorFormatado: fetchedVehicleData.Valor || '',
+        modelo: fetchedVehicleData.Modelo ?? '',
+        combustivel: fetchedVehicleData.Combustivel ?? '',
+        ano: fetchedVehicleData.AnoModelo?.toString() ?? '',
+        codigoFipe: fetchedVehicleData.CodigoFipe ?? '',
+        valor: fetchedVehicleData.Valor ?? '',
+        valorFormatado: fetchedVehicleData.Valor ?? '',
         valorNumerico,
-        referencia: fetchedVehicleData.MesReferencia || '',
+        referencia: fetchedVehicleData.MesReferencia ?? '',
         hasDataFromFipe: false
       });
     } else {
@@ -137,18 +143,18 @@ const VehicleEvaluationPage = () => {
     if (!vehicleData?.valorNumerico) return 0;
     
     const baseValue = vehicleData?.valorNumerico;
-    const conditionMultiplier = conditions.find(c => c.id === condition)?.multiplier || 1;
-    const mileageMultiplier = mileageOptions.find(m => m.value === mileage)?.multiplier || 1;
+    const conditionMultiplier = conditions.find(c => c.id === condition)?.multiplier ?? 1;
+    const mileageMultiplier = mileageOptions.find(m => m.value === mileage)?.multiplier ?? 1;
     const optionalBonus = Object.values(optionals).filter(Boolean).length * 1000; // R$ 1000 por opcional
     
     return Math.round(baseValue * conditionMultiplier * mileageMultiplier + optionalBonus);
   };
 
   const calculateMonthlyPayment = () => {
-    const vehiclePrice = vehicleData?.valorNumerico || 0;
-    const downPaymentValue = parseFloat(downPayment.replace(/\D/g, '')) || 0;
+    const vehiclePrice = vehicleData?.valorNumerico ?? 0;
+    const downPaymentValue = parseFloat(downPayment.replace(/\D/g, '')) ?? 0;
     const loanAmount = vehiclePrice - downPaymentValue;
-    const months = loanTerm[0];
+    const months = loanTerm[0] ?? 0;
     const interestRate = 0.015; // 1.5% ao mês
     
     if (loanAmount <= 0 || months <= 0) return 0;
@@ -270,7 +276,14 @@ const VehicleEvaluationPage = () => {
                   <Label className="text-base font-medium mb-3 block">Opções extras:</Label>
                   <div className="space-y-2">
                     {Object.entries(optionals).map(([key, checked]) => {
-                      const labels = { multimedia: 'Multimídia', sunroof: 'Teto solar', rearCamera: 'Câmera de ré', leather: 'Bancos de couro', navigation: 'GPS/Navegação' };
+                      const optionKey = key as keyof typeof optionals;
+                      const labels = { 
+                        multimedia: 'Multimídia', 
+                        sunroof: 'Teto solar', 
+                        rearCamera: 'Câmera de ré', 
+                        leather: 'Bancos de couro', 
+                        navigation: 'GPS/Navegação' 
+                      };
                       return (
                         <div key={key} className="flex items-center space-x-2">
                           <Checkbox
@@ -278,7 +291,7 @@ const VehicleEvaluationPage = () => {
                             checked={checked}
                             onCheckedChange={(newChecked) => setOptionals(prev => ({ ...prev, [key]: newChecked }))}
                           />
-                          <Label htmlFor={key} className="text-sm">{labels[key]}</Label>
+                          <Label htmlFor={key} className="text-sm">{labels[optionKey]}</Label>
                         </div>
                       );
                     })}
@@ -382,7 +395,7 @@ const VehicleEvaluationPage = () => {
                       R$ {monthlyPayment.toLocaleString('pt-BR')}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      Taxa estimada: 1,5% a.m. | Total: R$ {(monthlyPayment * loanTerm[0]).toLocaleString('pt-BR')}
+                      Taxa estimada: 1,5% a.m. | Total: R$ {(monthlyPayment * (loanTerm[0] ?? 0)).toLocaleString('pt-BR')}
                     </p>
                   </div>
                   <Dialog open={isContactModalOpen} onOpenChange={setIsContactModalOpen}>

@@ -9,7 +9,7 @@ import { Building, Car, Check, ChevronsUpDown } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command";
 import { cn } from "~/lib/utils";
 
-type VehicleType = "carros" | "motos" | "caminhoes";
+export type VehicleType = "carros" | "motos" | "caminhoes";
 
 interface VehicleSearchProps {
   onVehicleSelected: (data: { 
@@ -86,10 +86,10 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
     { value: "caminhoes", label: "Caminhões e micro-ônibus" },
   ];
 
-  const findVehicleTypeLabel = (type: string) => vehicleTypes.find(v => v.value === type)?.label || "";
-  const findBrandLabel = (code: string) => brands?.find(b => b.codigo === code)?.nome || "";
-  const findModelLabel = (code: string) => models?.find(m => m.codigo === code)?.nome || "";
-  const findYearLabel = (code: string) => years?.find(y => y.codigo === code)?.nome || "";
+  const findVehicleTypeLabel = (type: string) => vehicleTypes.find(v => v.value === type)?.label ?? "";
+  const findBrandLabel = (code: string) => brands?.find(b => b.codigo === code)?.nome ?? "";
+  const findModelLabel = (code: string) => models?.find(m => m.codigo === code)?.nome ?? "";
+  const findYearLabel = (code: string) => years?.find(y => y.codigo === code)?.nome ?? "";
 
   return (
       <div className="container mx-auto">

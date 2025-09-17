@@ -7,6 +7,16 @@ import {
 
 const token = process.env.API_KEY;
 
+interface FipePriceResponseData {
+  Modelo: string;
+  Combustivel: string;
+  AnoModelo: number;
+  CodigoFipe: string;
+  Valor: string;
+  MesReferencia: string;
+}
+
+
 // Criação do roteador para a API FIPE
 export const fipeRouter = createTRPCRouter({
   // Procedimento para obter as marcas dos carros
@@ -121,7 +131,7 @@ export const fipeRouter = createTRPCRouter({
           'Content-Type': 'application/json',
         },
       });
-      const data = await res.json();
+      const data = await res.json() as FipePriceResponseData;
 
       return data; // Retorna os dados do valor
     } catch (error) {

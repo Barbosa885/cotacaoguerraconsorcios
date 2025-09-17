@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Card } from "./ui/card";
 
 export const EmptyState = () => {
   return (

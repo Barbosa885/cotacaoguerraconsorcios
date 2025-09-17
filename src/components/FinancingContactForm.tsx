@@ -13,6 +13,13 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useState } from "react";
 
+interface FormErrors {
+  name?: string;
+  phone?: string;
+  email?: string;
+  interest?: string;
+}
+
 // Define o schema de validação do formulário utilizando o Zod
 const formSchema = z.object({
   name: z.string().min(2, { message: "O nome deve ter no mínimo 2 caracteres." }),
@@ -28,7 +35,7 @@ export const FinancingContactForm = () => {
     email: '',
     interest: ''
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -45,14 +52,19 @@ export const FinancingContactForm = () => {
       setFormData({ name: "", phone: "", email: "", interest: "" });
     } else {
       const fieldErrors = result.error.formErrors.fieldErrors;
-      setErrors(fieldErrors);
+      setErrors({
+        name: fieldErrors.name ? fieldErrors.name[0] : undefined,
+        phone: fieldErrors.phone ? fieldErrors.phone[0] : undefined,
+        email: fieldErrors.email ? fieldErrors.email[0] : undefined,
+        interest: fieldErrors.interest ? fieldErrors.interest[0] : undefined,
+      });
       toast.error("Por favor, preencha todos os campos corretamente.", {
         description: "Verifique os campos em vermelho.",
       });
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     // Formatação do telefone
     if (id === 'phone') {
@@ -65,9 +77,10 @@ export const FinancingContactForm = () => {
     }
   };
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = (value: string) => {
     setFormData({ ...formData, interest: value });
   };
+
   return (
     <div className="p-4 space-y-4">
       <div className="flex justify-center mb-4">
