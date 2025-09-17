@@ -19,7 +19,7 @@ interface CarDetailsCardProps {
 
 const SkeletonCarDetailsCard = () => {
   return (
-    <Card className="w-full max-w-6xl mx-auto mt-8 border-blue-300">
+    <Card className="w-full max-w-5xl mx-auto mt-8 border-blue-300">
       <CardHeader>
         <CardTitle className="font-bold text-2xl">
           <Skeleton className="h-8 w-80" />
@@ -57,17 +57,17 @@ const SkeletonCarDetailsCard = () => {
 
 const CarDetailsCard = ({ vehicleData }: CarDetailsCardProps) => {
   return (
-    <Card className="w-full max-w-6xl mx-auto border-blue-300">
+    <Card className="w-full max-w-5xl mx-auto border-blue-300">
       <CardHeader>
         <CardTitle className="font-bold text-2xl">{vehicleData.Modelo}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex justify-between items-center">
           <div>
-            <p>Combustível: {vehicleData.Combustivel}</p>
-            <p>Código Fipe: {vehicleData.CodigoFipe}</p>
-            <p>Ano Modelo: {vehicleData.AnoModelo}</p>
-            <p>Referência: {vehicleData.MesReferencia}</p>
+            <p className="text-slate-500">Combustível: {vehicleData.Combustivel}</p>
+            <p className="text-slate-500">Código Fipe: {vehicleData.CodigoFipe}</p>
+            <p className="text-slate-500">Ano Modelo: {vehicleData.AnoModelo}</p>
+            <p className="text-slate-500">Referência: {vehicleData.MesReferencia}</p>
           </div>
           <div className="flex flex-col">
             <p className="text-sm text-gray-500 font-bold">Valor:</p>

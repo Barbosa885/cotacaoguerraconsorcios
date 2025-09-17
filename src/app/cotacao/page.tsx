@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { CarDetailsCard, SkeletonCarDetailsCard } from "~/components/CarDetailsCard";
+import { EmptyState } from "~/components/EmptyState";
 import { Button } from "~/components/ui/button";
 import { VehicleSearch } from "~/components/VehicleSearch";
 
@@ -20,6 +21,8 @@ export default function PricePage() {
     <div className="flex flex-col min-h-screen justify-center mx-auto p-4 bg-gray-50">
       <h1 className="text-4xl font-bold text-center mb-8">Consulta de preço</h1>
       <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
+
+      {!selectedVehicleData && !isLoadingValor && <EmptyState />}
       {isLoadingValor && <SkeletonCarDetailsCard />}
 
       {vehicleData && 
