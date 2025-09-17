@@ -5,7 +5,7 @@ import { api } from "~/trpc/react";
 import { Skeleton } from "./ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Building, Car, Check, ChevronsUpDown } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command";
 import { cn } from "~/lib/utils";
 
@@ -86,10 +86,10 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
     { value: "caminhoes", label: "Caminhões e micro-ônibus" },
   ];
 
+  const findVehicleTypeLabel = (type: string) => vehicleTypes.find(v => v.value === type)?.label || "";
   const findBrandLabel = (code: string) => brands?.find(b => b.codigo === code)?.nome || "";
   const findModelLabel = (code: string) => models?.find(m => m.codigo === code)?.nome || "";
   const findYearLabel = (code: string) => years?.find(y => y.codigo === code)?.nome || "";
-  const findVehicleTypeLabel = (type: string) => vehicleTypes.find(v => v.value === type)?.label || "";
 
   return (
       <div className="container mx-auto">
@@ -106,6 +106,7 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
                 aria-expanded={openVehicleType}
                 className="w-full sm:w-auto sm:max-w-[18rem] justify-between text-sm"
               >
+                <Car className="mr-2 h-4 w-4" />
                 {selectedVehicleType ? findVehicleTypeLabel(selectedVehicleType) : "Tipo de veículo"}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
@@ -146,6 +147,7 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
                 aria-expanded={openBrand}
                 className="w-full sm:w-auto sm:min-w-[16rem] sm:max-w-[24rem] justify-between text-sm"
               >
+                <Building className="mr-2 h-4 w-4" />
                 {selectedBrand ? findBrandLabel(selectedBrand) : "Selecione a Marca"}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
@@ -199,9 +201,7 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
                   !selectedBrand && "opacity-50 cursor-not-allowed"
                 )}
               >
-                {selectedModel ? findModelLabel(selectedModel) : 
-                  !selectedBrand ? "Primeiro selecione a marca" : "Selecione o Modelo"
-                }
+                {selectedModel ? findModelLabel(selectedModel) : "Selecione o Modelo" }
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -258,10 +258,7 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
                   (!selectedBrand || !selectedModel) && "opacity-50 cursor-not-allowed"
                 )}
               >
-                {selectedYear ? findYearLabel(selectedYear) : 
-                  !selectedBrand ? "Primeiro selecione a marca" :
-                  !selectedModel ? "Primeiro selecione o modelo" : "Selecione o Ano"
-                }
+                {selectedYear ? findYearLabel(selectedYear) : "Selecione o Ano" }
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
