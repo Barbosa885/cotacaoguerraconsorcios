@@ -82,11 +82,10 @@ export default function PricePage() {
             </p>
           </div>
           <div className="mt-14 flex justify-center">
-            <Link href={handleNavigateToEvaluation(vehicleData, selectedVehicleData)} passHref className="flex items-center">
               <Button 
                 size="lg" 
                 className="px-4 py-6 text-lg font-semibold bg-blue-700 text-white hover:bg-blue-800"
-                asChild
+                onClick={() => handleNavigateToEvaluation(vehicleData, selectedVehicleData)}
               >
                 <span className="flex items-center">
                   <Sparkles className="mr-2 h-5 w-5 text-yellow-400" />
@@ -94,7 +93,6 @@ export default function PricePage() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </span>
               </Button>
-            </Link>
           </div>
         </div>
       }
