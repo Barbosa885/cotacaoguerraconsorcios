@@ -5,9 +5,10 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
+const token = process.env.API_KEY;
+
 // Criação do roteador para a API FIPE
 export const fipeRouter = createTRPCRouter({
-
   // Procedimento para obter as marcas dos carros
   getBrands: publicProcedure
   .input(z.object({
@@ -20,7 +21,12 @@ export const fipeRouter = createTRPCRouter({
 
     // Faz a requisição para a API FIPE
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
       const data = await res.json() as { codigo: string; nome: string }[];
 
       return data; // Retorna os dados das marcas
@@ -41,7 +47,12 @@ export const fipeRouter = createTRPCRouter({
     const url = `https://parallelum.com.br/fipe/api/v1/${vehicleType}/marcas/${brandCode}/modelos`;
 
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
       const data = await res.json() as { modelos: { codigo: string; nome: string }[]; anos: { codigo: string; nome: string }[] };
 
       // A resposta da API tem a estrutura { modelos: [], anos: [] }
@@ -64,7 +75,12 @@ export const fipeRouter = createTRPCRouter({
     const url = `https://parallelum.com.br/fipe/api/v1/${vehicleType}/marcas/${brandCode}/modelos/${modelCode}/anos`;
 
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
       const data = await res.json() as { codigo: string; nome: string }[];
 
       return data; // Retorna os dados dos anos
@@ -88,7 +104,12 @@ export const fipeRouter = createTRPCRouter({
       const url = `https://parallelum.com.br/fipe/api/v1/${vehicleType}/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`;
 
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
       const data = await res.json();
 
       return data; // Retorna os dados do valor
