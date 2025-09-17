@@ -11,8 +11,11 @@ export const Navbar = () => {
         </Link>
         
         <div className="flex items-center space-x-4">
-          <Link href="/cotacao">
-            <Button variant="ghost">Avaliar Veículo</Button>
+          <Link href="/consulta-fipe">
+            <Button variant="ghost">Consulta FIPE</Button>
+          </Link>
+          <Link href="/avaliacao-simulacao">
+            <Button variant="ghost">Avalie & Simule</Button>
           </Link>
           <Link href="/contato">
             <Button variant="ghost">Fale Conosco</Button>

@@ -6,6 +6,7 @@ import { Poppins } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Navbar } from "~/components/Navbar";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -30,9 +31,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${poppins.variable}`}>
-        <body>
+      <body>
         <Navbar />
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Toaster />
+        <TRPCReactProvider> {children} </TRPCReactProvider>
       </body>
     </html>
   );
