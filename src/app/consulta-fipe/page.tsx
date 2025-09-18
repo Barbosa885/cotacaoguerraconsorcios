@@ -4,14 +4,14 @@ import { ArrowRight, Sparkles, History } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { CarDetailsCard, SkeletonCarDetailsCard } from "~/components/CarDetailsCard";
 import { EmptyState } from "~/components/EmptyState";
 import { Button } from "~/components/ui/button";
 import { VehicleSearch, type VehicleType } from "~/components/VehicleSearch";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
 import { api } from "~/trpc/react";
-import { Skeleton } from "~/components/ui/skeleton";
+import { SearchHistoryList } from "./_components/SearchHistoryList";
+import { SkeletonCarDetailsCard } from "./_components/SkeletonCarDetailsCard";
+import { CarDetailsCard } from "./_components/CarDetailsCard";
 
 type VehicleDataType = {
   Modelo: string;
@@ -30,42 +30,9 @@ type SelectedVehicleDataType = {
   yearCode: string;
 } | null;
 
-// Componente para exibir o histórico
-const SearchHistoryList = () => {
-  const { data: history, isLoading } = api.searchHistory.list.useQuery();
-
-  if (isLoading) {
-    return (
-      <div className="space-y-3">
-        <Skeleton className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
-        <Skeleton className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
-        <Skeleton className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
-      </div>
-    );
-  }
-
-  if (!history || history.length === 0) {
-    return <p className="text-center text-sm text-gray-500">Nenhuma busca recente encontrada.</p>;
-  }
-
-  return (
-    <div className="space-y-3">
-      {history.map((item) => (
-        <div key={item.id} className="flex items-center justify-between rounded-lg border bg-white p-3">
-          <div>
-            <p className="font-semibold">{item.modelName}</p>
-            <p className="text-sm text-gray-600">{item.brandName} - {item.year}</p>
-          </div>
-          <Badge variant="outline" className="text-blue-700">{item.price}</Badge>
-        </div>
-      ))}
-    </div>
-  );
-};
-
 export default function PricePage() {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [selectedVehicleData, setSelectedVehicleData] = useState<SelectedVehicleDataType>(null);
 
   const { data: vehicleData, isLoading: isLoadingValor } = api.fipe.getPrice.useQuery(
@@ -135,7 +102,7 @@ export default function PricePage() {
                   <Button 
                     size="lg" 
                     className="bg-blue-700 px-4 py-6 text-lg font-semibold text-white hover:bg-blue-800"
-                    onClick={() => handleNavigateToEvaluation(vehicleData, selectedVehicleData!)}
+                    onClick={() => handleNavigateToEvaluation(vehicleData, selectedVehicleData)}
                   >
                     <span className="flex items-center">
                       <Sparkles className="mr-2 h-5 w-5 text-yellow-400" />

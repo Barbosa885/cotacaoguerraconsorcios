@@ -4,14 +4,13 @@ import {
   Fuel, 
   Hash 
 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from "./ui/card"
-import { Skeleton } from "./ui/skeleton";
-import { Badge } from "./ui/badge";
+import { Badge } from "~/components/ui/badge";
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle 
+} from "~/components/ui/card";
 
 interface CarDetailsCardProps {
   vehicleData: {
@@ -22,44 +21,6 @@ interface CarDetailsCardProps {
     MesReferencia?: string;
     Valor: string;
   };
-}
-
-const SkeletonCarDetailsCard = () => {
-  return (
-    <Card className="w-full max-w-5xl mx-auto mt-8 border-blue-300">
-      <CardHeader>
-        <CardTitle className="font-bold text-2xl">
-          <Skeleton className="h-8 w-80" />
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="mb-1">
-              <Skeleton className="h-4 w-40" />
-            </div>
-            <div className="mb-1">
-              <Skeleton className="h-4 w-36" />
-            </div>
-            <div className="mb-1">
-              <Skeleton className="h-4 w-32" />
-            </div>
-            <div className="mb-1">
-              <Skeleton className="h-4 w-44" />
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="mb-2">
-              <Skeleton className="h-4 w-16" />
-            </div>
-            <div>
-              <Skeleton className="h-8 w-56" />
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  )
 }
 
 const CarDetailsCard = ({ vehicleData }: CarDetailsCardProps) => {
@@ -139,4 +100,4 @@ const CarDetailsCard = ({ vehicleData }: CarDetailsCardProps) => {
   )
 }
 
-export { CarDetailsCard, SkeletonCarDetailsCard };
+export { CarDetailsCard };
