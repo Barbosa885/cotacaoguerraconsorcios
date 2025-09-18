@@ -3,9 +3,11 @@ import "~/styles/globals.css";
 import { type Metadata } from "next";
 import { Poppins } from "next/font/google";
 
+import { Providers } from "~/components/providers";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Navbar } from "~/components/Navbar";
 import { Toaster } from "~/components/ui/sonner";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -26,9 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable}`}>
       <body className="min-h-screen bg-gray-50 pt-16 sm:pt-20">
-        <Navbar />
-        <Toaster />
-        <TRPCReactProvider> {children} </TRPCReactProvider>
+        <Providers>
+          <Navbar />
+          <Toaster />
+          <TRPCReactProvider> {children} </TRPCReactProvider>
+        </Providers>
       </body>
     </html>
   );
