@@ -1,7 +1,6 @@
 'use client'
 
 import { ArrowRight, Sparkles } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CarDetailsCard, SkeletonCarDetailsCard } from "~/components/CarDetailsCard";
