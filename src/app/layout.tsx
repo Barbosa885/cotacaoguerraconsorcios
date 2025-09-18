@@ -26,7 +26,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${poppins.variable}`}>
-      <body>
+      <body className="bg-gray-50">
         <Providers>
           <Toaster position="top-center" expand={false} richColors/>
           <Navbar />
