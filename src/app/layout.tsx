@@ -26,11 +26,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${poppins.variable}`}>
-      <body className="min-h-screen bg-gray-50 pt-16 sm:pt-20">
+      <body>
         <Providers>
-          <Navbar />
           <Toaster position="top-center" expand={false} richColors/>
-          <TRPCReactProvider> {children} </TRPCReactProvider>
+          <Navbar />
+          <TRPCReactProvider> 
+            {children} 
+          </TRPCReactProvider>
         </Providers>
       </body>
     </html>

@@ -174,7 +174,7 @@ export const Navbar = () => {
                       </Button>
                     </Link>
                     <Button 
-                      className="bg-gray-900 hover:bg-gray-800 text-white rounded-xl px-4 lg:px-6 py-2 font-medium shadow-sm text-sm"
+                      className="bg-gray-700 hover:bg-gray-600 text-white rounded-xl px-4 lg:px-6 py-2 font-medium shadow-sm text-sm"
                     >
                       Começar!
                     </Button>

@@ -15,7 +15,7 @@ export default function HomePage(){
         </p>
         <div className="mt-8">
           <Link href="/consulta-fipe">
-            <Button size="lg" className="px-8 py-6 text-lg font-semibold bg-blue-800 text-white hover:bg-blue-900">
+            <Button size="lg" className="px-8 py-6 text-lg font-semibold bg-blue-800 text-white hover:bg-blue-600">
               Busque um carro novo
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
