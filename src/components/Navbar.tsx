@@ -7,6 +7,7 @@ import { Menu, X, User, LogOut } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 import { Skeleton } from "~/components/ui/skeleton";
+import { toast } from "sonner";
 
 export const Navbar = () => {
   const { data: session, status } = useSession();
@@ -49,14 +50,43 @@ export const Navbar = () => {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     closeMobileMenu();
-    signIn();
+
+    toast.loading("Carregando...", {
+      description: "Estamos processando seu login com o Google.",
+    });
+
+    try {
+      await signIn('google', {callbackUrl: '/'})
+      toast.success("Login realizado com sucesso!", {
+        description: "Você será redirecionado em breve."
+      })
+
+    } catch(error) {
+      console.error("Falha no login com o Google.", error)
+      toast.error("Erro ao fazer login", {
+        description: "Não foi possível conectar com o Google. Tente novamente."
+      })
+    }
   }
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     closeMobileMenu();
-    signOut();
+
+    toast.loading("Carregando...", {
+      description: "Estamos te deslogando."
+    })
+
+    try {
+      await signOut();
+      toast.success("Deslogado com sucesso!")
+    } catch(error) {
+      console.error("Erro ao deslogar: ", error)
+      toast.error("Houve um problema ao deslogar", {
+        description: "Não foi possível deslogar sua conta. Tente novamente."
+      })
+    }
   }
 
   return (
@@ -174,7 +204,7 @@ export const Navbar = () => {
                         <p className="text-xs text-gray-500 truncate">{session.user.email}</p>
                       </div>
                       <div className="p-1">
-                        <Button variant="ghost" className="w-full justify-start text-sm font-normal text-red-500" onClick={() => signOut()}>
+                        <Button variant="ghost" className="w-full justify-start text-sm font-normal text-red-500" onClick={handleSignOut}>
                           <LogOut className="mr-2 h-4 w-4" />
                           Sair
                         </Button>
@@ -286,7 +316,7 @@ export const Navbar = () => {
                   <Button 
                     variant="ghost" 
                     className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg px-4 py-3 font-medium text-base"
-                    onClick={handleSignOut}
+                      onClick={handleSignOut}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
                     Sair
