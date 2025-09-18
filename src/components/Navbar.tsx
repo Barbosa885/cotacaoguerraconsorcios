@@ -137,7 +137,7 @@ export const Navbar = () => {
                     Avalie & Simule
                   </Button>
                 </Link>
-                <Link href="/veiculos" onClick={closeMobileMenu}>
+                <Link href="/classificados" onClick={closeMobileMenu}>
                   <Button 
                     variant="ghost" 
                     className="text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-xl px-4 py-2 font-medium text-sm"

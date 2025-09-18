@@ -64,6 +64,7 @@ model User {
   sessions      Session[]
   posts         Post[]
   SearchHistory SearchHistory[]
+  listings      VehicleListing[]
 }
 
 model VerificationToken {
@@ -88,4 +89,40 @@ model SearchHistory {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  REMOVED
+}
+
+model VehicleListing {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Usuário que fez o anúncio
+  sellerId String
+  seller   User     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+
+  // Detalhes do veículo
+  modelName   String
+  brandName   String
+  year        String
+  fuelType    String
+  fipeCode    String
+
+  // Detalhes de valor
+  price         Int      // Salvar o preço em centavos é uma boa prática, mas para ficar simples, vou usar Int.
+  mileage       String
+  condition     String   // Ex. 'Excelente', 'Bom', 'Regular', 'Precisa de ajustes'
+  optionals     Json     // Salva o opcionais selecionados como um objeto JSON
+
+  // Listing Status
+  status    ListingStatus @default(ACTIVE)
+
+  @@index([sellerId])
+  @@index([status])
 }

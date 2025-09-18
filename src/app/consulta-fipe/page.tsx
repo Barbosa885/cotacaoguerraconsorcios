@@ -89,7 +89,7 @@ export default function PricePage() {
           <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
 
           <div className="mt-8">
-            {!selectedVehicleData && !isLoadingValor && <EmptyState />}
+            {!selectedVehicleData && !isLoadingValor && <EmptyState subText="Selecione o tipo de veículo, marca, modelo e ano para consultar o valor atualizado na tabela FIPE." text="Nenhum veículo selecionado" />}
             {isLoadingValor && <SkeletonCarDetailsCard />}
 
             {vehicleData && 
