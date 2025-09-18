@@ -83,7 +83,7 @@ export default function PricePage() {
           <div className="flex flex-col items-center">
             <h1 className="mb-4 text-center text-4xl font-bold">Consulta de preço FIPE</h1>
             <p className="mb-6 max-w-2xl text-center text-gray-500">
-              Selecione a marca, modelo e ano do veículo. Use a busca para encontrar mais rápido.
+              Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua preferência. Você também pode utilizar o campo "busca" em cada etapa do formulário para localizar a informação desejada mais rapidamente.
             </p>
           </div>
           <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
