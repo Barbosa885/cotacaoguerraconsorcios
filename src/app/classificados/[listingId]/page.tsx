@@ -5,14 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { notFound } from "next/navigation";
 import { Button } from "~/components/ui/button";
 
-interface ListingPageProps {
-  params: {
-    listingId: string;
-  };
-}
-
-export default async function ListingDetailPage({ params }: ListingPageProps ) {
-  const { listingId } = params;
+export default async function ListingDetailPage({ params }: { params: Promise<{ listingId: string }>} ) {
+  const { listingId } = await params;
 
   const listing = await api.listing.getById({ id: listingId });
 

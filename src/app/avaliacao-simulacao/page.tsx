@@ -273,17 +273,17 @@ const VehicleEvaluationContent = () => {
                       <TooltipTrigger asChild>
                         <Button 
                         onClick={handleAnnounceVehicle} 
-                        className={`w-full bg-green-500 text-white hover:bg-green-700 ${!canAnnounce || createListing.isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+                        className={`w-full bg-green-500 text-white hover:bg-green-700 ${!canAnnounce || createListing.isPending ? 'cursor-not-allowed opacity-50' : ''}`}
                         >
-                        {createListing.isLoading ? (
+                        {createListing.isPending ? (
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         ) : (
                         <CheckCircle className="mr-2 h-4 w-4" />
                         )}
-                        {createListing.isLoading ? 'Anunciando...' : 'Anuncie seu veículo'}
+                        {createListing.isPending ? 'Anunciando...' : 'Anuncie seu veículo'}
                         </Button>
                       </TooltipTrigger>
-                      {(!canAnnounce || createListing.isLoading) && (
+                      {(!canAnnounce || createListing.isPending) && (
                       <TooltipContent>
                         <p> Preencha todos os campos antes.</p>
                       </TooltipContent>
