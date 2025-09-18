@@ -1,3 +1,4 @@
+import { searchHistoryRouter } from "~/server/api/routers/searchHistory";
 import { fipeRouter } from "~/server/api/routers/fipe";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
@@ -8,6 +9,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   fipe: fipeRouter,
+  searchHistory: searchHistoryRouter,
 });
 
 // export type definition of API

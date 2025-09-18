@@ -8,6 +8,7 @@ import {
 const token = process.env.API_KEY;
 
 interface FipePriceResponseData {
+  Marca: string,
   Modelo: string;
   Combustivel: string;
   AnoModelo: number;
