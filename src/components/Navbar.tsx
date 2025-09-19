@@ -9,6 +9,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover
 import { Skeleton } from "~/components/ui/skeleton";
 import { toast } from "sonner";
 
+const navItems = [
+  { href: "/consulta-fipe", label: "Consulta FIPE" },
+  { href: "/avaliacao-simulacao", label: "Avalie & Simule" },
+  { href: "/classificados", label: "Veículos" },
+  { href: "/contato", label: "Fale Conosco" },
+];
+
 export const Navbar = () => {
   const { data: session, status } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -121,38 +128,16 @@ export const Navbar = () => {
               
               {/* Navegação web */}
               <div className="hidden md:flex items-center space-x-1">
-                <Link href="/consulta-fipe">
-                  <Button 
-                    variant="ghost" 
-                    className="text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-xl px-4 py-2 font-medium text-sm"
-                  >
-                    Consulta FIPE
-                  </Button>
-                </Link>
-                <Link href="/avaliacao-simulacao">
-                  <Button 
-                    variant="ghost" 
-                    className="text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-xl px-4 py-2 font-medium text-sm"
-                  >
-                    Avalie & Simule
-                  </Button>
-                </Link>
-                <Link href="/classificados" onClick={closeMobileMenu}>
-                  <Button 
-                    variant="ghost" 
-                    className="text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-xl px-4 py-2 font-medium text-sm"
-                  >
-                    Veículos
-                  </Button>
-                </Link>
-                <Link href="/contato">
-                  <Button 
-                    variant="ghost" 
-                    className="text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-xl px-4 py-2 font-medium text-sm"
-                  >
-                    Fale Conosco
-                  </Button>
-                </Link>
+                {navItems.map((item) => (
+                  <Link key={item.href} href={item.href}>
+                    <Button 
+                      variant="ghost" 
+                      className="text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-xl px-4 py-2 font-medium text-sm"
+                    >
+                      {item.label}
+                    </Button>
+                  </Link>
+                ))}
               </div>
               
               {/* Web CTA */}
@@ -280,38 +265,16 @@ export const Navbar = () => {
                   </div>
                 </div>
               )}
-              <Link href="/consulta-fipe" onClick={closeMobileMenu}>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg px-4 py-3 font-medium text-base"
-                >
-                  Consulta FIPE
-                </Button>
-              </Link>
-              <Link href="/avaliacao-simulacao" onClick={closeMobileMenu}>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg px-4 py-3 font-medium text-base"
-                >
-                  Avalie & Simule
-                </Button>
-              </Link>
-              <Link href="/veiculos" onClick={closeMobileMenu}>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg px-4 py-3 font-medium text-base"
-                >
-                  Veículos
-                </Button>
-              </Link>
-              <Link href="/contato" onClick={closeMobileMenu}>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg px-4 py-3 font-medium text-base"
-                >
-                  Fale Conosco
-                </Button>
-              </Link>
+              {navItems.map((item) => (
+                <Link key={item.href} href={item.href} onClick={closeMobileMenu}>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg px-4 py-3 font-medium text-base"
+                  >
+                    {item.label}
+                  </Button>
+                </Link>
+              ))}
               
               <div className="pt-2 border-t border-gray-100 mt-3">
                 {status === 'authenticated' ? (
