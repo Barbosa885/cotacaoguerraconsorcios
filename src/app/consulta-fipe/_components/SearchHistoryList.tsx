@@ -1,5 +1,8 @@
+// Componentes
 import { Badge } from "~/components/ui/badge";
 import { Skeleton } from "~/components/ui/skeleton";
+
+// tRPC
 import { api } from "~/trpc/react";
 
 // Componente para exibir o histórico

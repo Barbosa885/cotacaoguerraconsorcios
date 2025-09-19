@@ -1,17 +1,21 @@
 'use client'
 
 import React, { Suspense } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { Alert, AlertDescription } from '~/components/ui/alert';
-import { Car, Info, Sparkles } from 'lucide-react';
-import { VehicleSearch } from '~/components/VehicleSearch';
-import { Skeleton } from '~/components/ui/skeleton';
 
-// Importação da nova arquitetura de arquivos
+// Icones
+import { Car, Info, Sparkles } from 'lucide-react';
+
+// Componentes e hooks
 import { useVehicleData } from './_hooks/useVehicleData';
 import { VehicleEvaluationCard } from './_components/VehicleEvaluationCard';
 import { FipeValueCard } from './_components/FipeValueCard';
 import { FinancingSimulatorCard } from './_components/FinancingSimulatorCard';
+import { VehicleSearch } from '~/components/VehicleSearch';
+
+// Shadcn
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import { Skeleton } from '~/components/ui/skeleton';
+import { Alert, AlertDescription } from '~/components/ui/alert';
 
 const EvaluationLoading = () => {
   return (
@@ -33,7 +37,6 @@ const EvaluationLoading = () => {
 }
 
 const VehicleEvaluationContent = () => {
-  // Agora o componente ta muito mais limpo, usando o hook personalizado para gerenciar os dados.
   const { vehicleData, isLoadingPrice, setSelectedVehicleData, initialVehicleSelection } = useVehicleData();
 
   const hasVehicleData = vehicleData?.modelo && vehicleData.valorNumerico > 0;
@@ -66,14 +69,10 @@ const VehicleEvaluationContent = () => {
 
           {hasVehicleData && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Renderiza o componente VehicleEvaluationCard */}
               <VehicleEvaluationCard vehicleData={vehicleData} />
 
               <div className="space-y-6">
-                {/* Renderiza o componente FipeValueCard */}
                 <FipeValueCard vehicleData={vehicleData} />
-                
-                {/* Renderiza o componente FinancingSimulatorCard */}
                 <FinancingSimulatorCard vehiclePrice={vehicleData.valorNumerico} />
               </div>
             </div>

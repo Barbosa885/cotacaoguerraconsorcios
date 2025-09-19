@@ -1,3 +1,4 @@
+// Componentes
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
@@ -8,9 +9,10 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "~/components/ui/select";
-import Image from "next/image";
 import { toast } from "sonner";
+
 import { z } from "zod";
+import Image from "next/image";
 import { useState } from "react";
 
 interface FormErrors {

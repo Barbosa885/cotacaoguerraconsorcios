@@ -10,7 +10,7 @@ export const searchHistoryRouter = createTRPCRouter({
       orderBy: {
         createdAt: "desc",
       },
-      take: 3, // Limit to the last 3 searches
+      take: 3, // Limitado para as 3 últimas buscas
     });
 
     return history;

@@ -2,12 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { api } from "~/trpc/react";
+import { cn } from "~/lib/utils";
+
+// Icones
+import { Building, Car, Check, ChevronsUpDown } from "lucide-react";
+
+// Componentes
 import { Skeleton } from "./ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
-import { Building, Car, Check, ChevronsUpDown } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command";
-import { cn } from "~/lib/utils";
 
 export type VehicleType = "carros" | "motos" | "caminhoes";
 
@@ -29,11 +33,13 @@ interface VehicleSearchProps {
 }
 
 export const VehicleSearch = ({ onVehicleSelected, initialData }: VehicleSearchProps) => {
+  // Estados do menu de pesquisa dos veículos
   const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType>("carros");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
 
+  // Estados mobile, hamburguer
   const [openVehicleType, setOpenVehicleType] = useState(false);
   const [openBrand, setOpenBrand] = useState(false);
   const [openModel, setOpenModel] = useState(false);
@@ -47,6 +53,7 @@ export const VehicleSearch = ({ onVehicleSelected, initialData }: VehicleSearchP
     { brandCode: selectedBrand, vehicleType: selectedVehicleType },
     { enabled: !!selectedBrand }
   );
+
   const { data: years, isLoading: isLoadingYears } = api.fipe.getYears.useQuery(
     { brandCode: selectedBrand, modelCode: selectedModel, vehicleType: selectedVehicleType },
     { enabled: !!selectedBrand && !!selectedModel }

@@ -1,10 +1,13 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
+
+// Componentes
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
-import Image from 'next/image';
+
 
 export const ContactForm = () => {
   return (

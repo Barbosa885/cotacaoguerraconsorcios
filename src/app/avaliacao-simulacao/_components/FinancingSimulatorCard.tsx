@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+
+// Componentes
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
@@ -9,6 +11,8 @@ import { Slider } from '~/components/ui/slider';
 import { Badge } from '~/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '~/components/ui/dialog';
 import { FinancingContactForm } from '~/components/FinancingContactForm';
+
+// Icones
 import { Calculator, DollarSign, CheckCircle } from 'lucide-react';
 
 interface FinancingSimulatorCardProps {
@@ -24,7 +28,7 @@ export const FinancingSimulatorCard = ({ vehiclePrice }: FinancingSimulatorCardP
     const downPaymentValue = parseFloat(downPayment.replace(/\D/g, '')) ?? 0;
     const loanAmount = vehiclePrice - downPaymentValue;
     const months = loanTerm[0] ?? 0;
-    // A taxa de juros pode ser uma constante ou vir de uma configuração
+    // A taxa de juros random
     const interestRate = 0.015; 
 
     if (loanAmount <= 0 || months <= 0) return 0;

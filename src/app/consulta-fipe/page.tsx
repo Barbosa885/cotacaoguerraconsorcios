@@ -1,17 +1,24 @@
 'use client'
 
+// Icones
 import { ArrowRight, Sparkles, History } from "lucide-react";
+
+// Hooks
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+
+// Componentes
 import { EmptyState } from "~/components/EmptyState";
 import { Button } from "~/components/ui/button";
 import { VehicleSearch, type VehicleType } from "~/components/VehicleSearch";
-import { api } from "~/trpc/react";
 import { SearchHistoryList } from "./_components/SearchHistoryList";
 import { SkeletonCarDetailsCard } from "./_components/SkeletonCarDetailsCard";
 import { CarDetailsCard } from "./_components/CarDetailsCard";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "~/components/ui/drawer";
+
+// tRPC e utils
+import { api } from "~/trpc/react";
 import { cn } from "~/lib/utils";
 
 type VehicleDataType = {

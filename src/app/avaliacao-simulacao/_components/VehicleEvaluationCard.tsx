@@ -1,22 +1,27 @@
 'use client';
 
+// Hooks
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { toast } from 'sonner';
-import { api } from '~/trpc/react';
-import { cn } from '~/lib/utils';
 import type { VehicleData } from '../_hooks/useVehicleData';
 
+// Icones
+import { Car, Gauge, Calculator, CheckCircle, Loader2 } from 'lucide-react';
+
+// Componentes
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { Button } from '~/components/ui/button';
 import { Label } from '~/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
-import { Car, Gauge, Calculator, CheckCircle, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '~/components/ui/dialog';
 import { Textarea } from '~/components/ui/textarea';
+import { toast } from 'sonner';
+
+import { api } from '~/trpc/react';
+import { cn } from '~/lib/utils';
 
 const conditions = [
   { id: 'excellent', label: 'Excelente', multiplier: 1.0 },
@@ -58,8 +63,8 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
     leather: false,
     navigation: false
   });
-  const [description, setDescription] = useState(""); // New state for description
-  const [isModalOpen, setIsModalOpen] = useState(false); // New state for modal control
+  const [description, setDescription] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const createListing = api.listing.create.useMutation({
     onSuccess: (data) => {
@@ -69,8 +74,8 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
           onClick: () => router.push(`/classificados/${data.id}`),
         },
       });
-      setIsModalOpen(false); // Close modal on success
-      setDescription(""); // Clear description
+      setIsModalOpen(false);
+      setDescription("");
     },
     onError: (error) => {
       console.error("Erro inesperado: ", error.message);
@@ -96,15 +101,13 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
   const estimatedValue = calculateEstimatedValue();
   const canAnnounce = !!condition && !!mileage && status === 'authenticated';
 
-  // This function now just opens the modal
   const handleAnnounceVehicle = () => {
     if (!vehicleData || !canAnnounce) return;
     setIsModalOpen(true);
   };
 
-  // New function to confirm and trigger the mutation
   const handleConfirmAnnounce = () => {
-    if (!vehicleData || !canAnnounce) return; // Should not happen if button is disabled
+    if (!vehicleData || !canAnnounce) return;
 
     createListing.mutate({
       modelName: vehicleData.modelo,
@@ -116,7 +119,7 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
       mileage,
       condition,
       optionals,
-      description, // Pass the new description
+      description,
     });
   };
 

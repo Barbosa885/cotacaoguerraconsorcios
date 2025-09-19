@@ -1,9 +1,12 @@
+// Icones
 import { 
   CalendarDays, 
   Car, 
   Fuel, 
   Hash 
 } from "lucide-react";
+
+// Componentes
 import { Badge } from "~/components/ui/badge";
 import { 
   Card, 

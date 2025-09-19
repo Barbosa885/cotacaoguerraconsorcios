@@ -35,7 +35,7 @@ export const listingRouter = createTRPCRouter({
         mileage: z.string(),
         condition: z.string(),
         description: z.string().optional(),
-        optionals: z.record(z.boolean()), // JSON object
+        optionals: z.record(z.boolean()), // objeto JSON
       }),
     )
     .mutation(async ({ ctx, input }) => {

@@ -1,10 +1,17 @@
 'use client'
-import Link from "next/link";
-import { Button } from "~/components/ui/button";
-import Image from "next/image";
+
+// Hooks
 import { useState, useEffect } from "react";
-import { Menu, X, User, LogOut } from "lucide-react";
+
+import Link from "next/link";
+import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+
+// Icones
+import { Menu, X, User, LogOut } from "lucide-react";
+
+// Componentes
+import { Button } from "~/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 import { Skeleton } from "~/components/ui/skeleton";
 import { toast } from "sonner";
