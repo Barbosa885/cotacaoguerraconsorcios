@@ -95,78 +95,80 @@ export default function PricePage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center p-4 pt-24">
-      <div className="flex flex-col items-center">
-        <div className="relative mb-4 w-full">
-          <div
-            className={cn(
-              "text-center",
-              vehicleData && "hidden md:block"
-            )}
-          >
-            <h1 className="text-3xl font-bold sm:text-4xl">Consulta de preço FIPE</h1>
-            <p className="mx-auto mb-8 max-w-2xl text-center text-sm md:text-base text-gray-500 lg:text-lg">
-              Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua preferência.
-            </p>
-          </div>
-          <div className="absolute right-0 top-0">
-            <Drawer>
-              <DrawerTrigger asChild>
-                <Button variant="outline">
-                  <History className="mr-0 h-5 w-5 sm:mr-2" />
-                  <span className="hidden sm:inline">Histórico</span>
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle className="flex items-center justify-center">
-                    <History className="mr-2 h-5 w-5" />
-                    Histórico de Consultas
-                  </DrawerTitle>
-                </DrawerHeader>
-                <div className="mt-4 px-4 pb-8">
-                  {status === 'authenticated' ? (
-                    <SearchHistoryList />
-                  ) : (
-                    <div className="flex min-h-[200px] flex-col items-center justify-center text-center">
-                      <p className="text-sm text-gray-500">Faça login para ver seu histórico de consultas.</p>
-                      <Button onClick={() => router.push('/login')} className="mt-4">Fazer Login</Button>
-                    </div>
-                  )}
-                </div>
-              </DrawerContent>
-            </Drawer>
-          </div>
-        </div>
-      </div>
-
-      <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
-
-      <div className="mt-8">
-        {!selectedVehicleData && !isLoadingValor && <EmptyState subText="Selecione o tipo de veículo, marca, modelo e ano para consultar o valor atualizado na tabela FIPE." text="Nenhum veículo selecionado" />}
-        {isLoadingValor && <SkeletonCarDetailsCard />}
-
-        {vehicleData &&
-          <div className="mt-6 flex flex-col items-center">
-            <CarDetailsCard vehicleData={vehicleData} />
-            <p className="mt-4 text-center text-sm font-light text-gray-400">
-              * Faça a avaliação do seu veículo ou simule um financiamento abaixo.
-            </p>
-            <div className="mt-8 flex w-full justify-center">
-              <Button
-                size="lg"
-                className="w-full max-w-md bg-blue-700 px-4 py-6 text-lg font-semibold text-white hover:bg-blue-800"
-                onClick={() => handleNavigateToEvaluation(vehicleData, selectedVehicleData)}
-              >
-                <span className="flex items-center justify-center">
-                  <Sparkles className="mr-2 h-5 w-5 text-yellow-400" />
-                  Avalie seu veículo ou Simule um financiamento
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </span>
-              </Button>
+    <div className="bg-gradient-to-br from-blue-200 w-full via-white to-gray-200 ">
+      <div className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center p-4 pt-24">
+        <div className="flex flex-col items-center">
+          <div className="relative mb-4 w-full">
+            <div
+              className={cn(
+                "text-center",
+                vehicleData && "hidden md:block"
+              )}
+            >
+              <h1 className="text-3xl font-bold sm:text-4xl">Consulta de preço FIPE</h1>
+              <p className="mx-auto mb-8 max-w-2xl text-center text-sm md:text-base text-gray-500 lg:text-lg">
+                Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua preferência.
+              </p>
+            </div>
+            <div className="absolute right-0 top-0">
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <Button variant="outline">
+                    <History className="mr-0 h-5 w-5 sm:mr-2" />
+                    <span className="hidden sm:inline">Histórico</span>
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle className="flex items-center justify-center">
+                      <History className="mr-2 h-5 w-5" />
+                      Histórico de Consultas
+                    </DrawerTitle>
+                  </DrawerHeader>
+                  <div className="mt-4 px-4 pb-8">
+                    {status === 'authenticated' ? (
+                      <SearchHistoryList />
+                    ) : (
+                      <div className="flex min-h-[200px] flex-col items-center justify-center text-center">
+                        <p className="text-sm text-gray-500">Faça login para ver seu histórico de consultas.</p>
+                        <Button onClick={() => router.push('/login')} className="mt-4">Fazer Login</Button>
+                      </div>
+                    )}
+                  </div>
+                </DrawerContent>
+              </Drawer>
             </div>
           </div>
-        }
+        </div>
+
+        <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
+
+        <div className="mt-8">
+          {!selectedVehicleData && !isLoadingValor && <EmptyState subText="Selecione o tipo de veículo, marca, modelo e ano para consultar o valor atualizado na tabela FIPE." text="Nenhum veículo selecionado" />}
+          {isLoadingValor && <SkeletonCarDetailsCard />}
+
+          {vehicleData &&
+            <div className="mt-6 flex flex-col items-center">
+              <CarDetailsCard vehicleData={vehicleData} />
+              <p className="mt-4 text-center text-sm font-light text-gray-400">
+                * Faça a avaliação do seu veículo ou simule um financiamento abaixo.
+              </p>
+              <div className="mt-8 flex w-full justify-center">
+                <Button
+                  size="lg"
+                  className="w-full max-w-md bg-blue-700 px-4 py-6 text-lg font-semibold text-white hover:bg-blue-800"
+                  onClick={() => handleNavigateToEvaluation(vehicleData, selectedVehicleData)}
+                >
+                  <span className="flex items-center text-sm justify-center">
+                    <Sparkles className="mr-2 h-5 w-5 text-yellow-400" />
+                    Avalie seu veículo ou Simule um financiamento
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </span>
+                </Button>
+              </div>
+            </div>
+          }
+        </div>
       </div>
     </div>
   );

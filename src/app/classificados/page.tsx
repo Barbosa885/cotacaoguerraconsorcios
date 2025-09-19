@@ -4,14 +4,21 @@ import { Badge } from "~/components/ui/badge";
 import Link from "next/link";
 import { EmptyState } from "~/components/EmptyState";
 
+const conditionMap = {
+  'excellent': 'Excelente',
+  'good': 'Bom',
+  'fair': 'Regular',
+  'poor': 'Precisa de reparos',
+};
+
 export default async function ClassifiedsPage() {
   const listings = await api.listing.list();
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
+    <div className="bg-gradient-to-br from-blue-200 via-white to-gray-200 flex flex-col justify-center items-center min-h-screen pt-24 sm:pt-24 md:pt-24 lg:pt-0 xl:pt-0">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Veículos Anunciados</h1>
-        <p className="text-lg text-gray-600">Encontre as melhores ofertas diretamente com os proprietários</p>
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Veículos Anunciados</h1>
+        <p className="text-sm md:text-base lg:text-lg text-gray-600">Encontre as melhores ofertas diretamente com os proprietários</p>
       </div>
 
       {listings.length === 0 ? (
@@ -32,7 +39,7 @@ export default async function ClassifiedsPage() {
                     <p className="mb-4 text-2xl font-bold text-blue-700">R$ {listing.price.toLocaleString('pt-BR')}</p>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">{listing.mileage} km</Badge>
-                      <Badge variant="secondary">{listing.condition}</Badge>
+                      <Badge variant="secondary">{conditionMap[listing.condition as keyof typeof conditionMap] ?? listing.condition}</Badge>
                     </div>
                   </CardContent>
                 </div>

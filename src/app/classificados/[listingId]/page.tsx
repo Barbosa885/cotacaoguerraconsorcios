@@ -5,6 +5,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { notFound } from "next/navigation";
 import { Button } from "~/components/ui/button";
 
+const optionalMap = {
+  multimedia: 'Central Multimídia',
+  sunroof: 'Teto Solar',
+  rearCamera: 'Câmera de Ré',
+  leather: 'Bancos de Couro',
+  navigation: 'Navegador GPS'
+};
+
 export default async function ListingDetailPage({ params }: { params: Promise<{ listingId: string }>} ) {
   const { listingId } = await params;
 
@@ -35,7 +43,9 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
           <div className="prose max-w-none">
             <h3 className="font-semibold">Opcionais</h3>
             <ul className="list-disc pl-5">
-              {Object.entries(listing.optionals as Record<string, boolean>).map(([key, value]) => value && <li key={key}>{key}</li>)}
+              {Object.entries(listing.optionals as Record<string, boolean>)
+                .filter(([value]) => value)
+                .map(([key]) => <li key={key}>{optionalMap[key as keyof typeof optionalMap]}</li>)}
             </ul>
             
             <h3 className="font-semibold mt-6">Descrição</h3>
