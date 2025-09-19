@@ -17,7 +17,7 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="flex flex-col items-center justify-center mx-auto p-4 pt-8 max-w-4xl min-h-screen">
       <div className="h-96 w-4xl bg-gray-200 rounded-lg flex items-center justify-center mb-8">
-        <p className="text-gray-500">Galeria de Imagens</p>
+        <p className="text-gray-500">Nenhuma imagem disponível</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -39,7 +39,11 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
             </ul>
             
             <h3 className="font-semibold mt-6">Descrição</h3>
-            <p>Este é um ótimo veículo, bem cuidado e com todas as revisões em dia. Entre em contato para mais detalhes.</p>
+            {listing.description ? (
+              <p>{listing.description}</p>
+            ) : (
+              <p className="text-gray-500 italic">Nenhuma descrição detalhada fornecida pelo vendedor.</p>
+            )}
           </div>
         </div>
 

@@ -19,33 +19,29 @@ export default async function ClassifiedsPage() {
           <EmptyState text="Nenhum veículo anunciado no momento" subText="Parece que nossa garagem ainda está vazia! Que tal dar uma conferida mais tarde?" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid w-full max-w-7xl grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
           {listings.map((listing) => (
-            <Link key={listing.id} href={`/classificados/${listing.id}`} className="block">
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
-                {/* Placeholder for image - you can add image upload functionality later */}
-                <div className="h-48 bg-gray-200 flex items-center justify-center">
-                  <p className="text-gray-500">Sem imagem</p>
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-lg">{listing.modelName}</CardTitle>
-                  <p className="text-sm text-gray-500">{listing.brandName} - {listing.year}</p>
-                </CardHeader>
-                <CardContent className="flex-grow flex flex-col justify-between">
-                  <div>
-                    <p className="text-2xl font-bold text-blue-600 mb-4">R$ {listing.price.toLocaleString('pt-BR')}</p>
-                    <div className="flex flex-wrap gap-2 text-xs">
+            <Link key={listing.id} href={`/classificados/${listing.id}`} className="block h-full">
+              <Card className="flex h-full flex-col justify-between rounded-lg border bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-md">
+                <div>
+                  <CardHeader className="mb-4 p-0">
+                    <CardTitle className="text-xl font-bold text-gray-900">{listing.modelName}</CardTitle>
+                    <p className="text-sm text-gray-500">{listing.brandName} - {listing.year}</p>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <p className="mb-4 text-2xl font-bold text-blue-700">R$ {listing.price.toLocaleString('pt-BR')}</p>
+                    <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">{listing.mileage} km</Badge>
                       <Badge variant="secondary">{listing.condition}</Badge>
                     </div>
+                  </CardContent>
+                </div>
+                <div className="mt-6 flex items-center space-x-3 border-t pt-4">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm font-semibold text-gray-600">
+                    {listing.seller.name?.charAt(0).toUpperCase()}
                   </div>
-                  <div className="border-t mt-4 pt-3 flex items-center space-x-2">
-                    <div className="h-6 w-6 rounded-full bg-gray-300 flex items-center justify-center text-xs">
-                      {listing.seller.name?.charAt(0)}
-                    </div>
-                    <p className="text-xs text-gray-600">Anunciado por {listing.seller.name}</p>
-                  </div>
-                </CardContent>
+                  <p className="text-sm text-gray-700">Anunciado por <span className="font-medium">{listing.seller.name}</span></p>
+                </div>
               </Card>
             </Link>
           ))}

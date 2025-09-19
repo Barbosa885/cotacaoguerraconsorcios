@@ -34,6 +34,7 @@ export const listingRouter = createTRPCRouter({
         price: z.number(),
         mileage: z.string(),
         condition: z.string(),
+        description: z.string().optional(),
         optionals: z.record(z.boolean()), // JSON object
       }),
     )

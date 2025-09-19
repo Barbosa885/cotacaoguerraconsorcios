@@ -34,7 +34,7 @@ const EvaluationLoading = () => {
 
 const VehicleEvaluationContent = () => {
   // Agora o componente ta muito mais limpo, usando o hook personalizado para gerenciar os dados.
-  const { vehicleData, isLoadingPrice, setSelectedVehicleData } = useVehicleData();
+  const { vehicleData, isLoadingPrice, setSelectedVehicleData, initialVehicleSelection } = useVehicleData();
 
   const hasVehicleData = vehicleData?.modelo && vehicleData.valorNumerico > 0;
 
@@ -52,7 +52,7 @@ const VehicleEvaluationContent = () => {
               <p className="text-sm text-gray-600">Escolha o tipo, marca, modelo e ano do veículo para começar</p>
             </CardHeader>
             <CardContent>
-              <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
+              <VehicleSearch onVehicleSelected={setSelectedVehicleData} initialData={initialVehicleSelection} />
               {isLoadingPrice && (
                 <div className="mt-4">
                   <Alert>

@@ -11,6 +11,13 @@ import { cn } from "~/lib/utils";
 
 export type VehicleType = "carros" | "motos" | "caminhoes";
 
+interface InitialVehicleData {
+  vehicleType: VehicleType;
+  brandCode: string;
+  modelCode: string;
+  yearCode: string;
+}
+
 interface VehicleSearchProps {
   onVehicleSelected: (data: { 
     brandCode: string; 
@@ -18,9 +25,10 @@ interface VehicleSearchProps {
     yearCode: string; 
     vehicleType: VehicleType;
   } | null) => void;
+  initialData?: InitialVehicleData | null;
 }
 
-export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
+export const VehicleSearch = ({ onVehicleSelected, initialData }: VehicleSearchProps) => {
   const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType>("carros");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
@@ -41,8 +49,29 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
   );
   const { data: years, isLoading: isLoadingYears } = api.fipe.getYears.useQuery(
     { brandCode: selectedBrand, modelCode: selectedModel, vehicleType: selectedVehicleType },
-    { enabled: !!selectedModel && !!selectedModel }
+    { enabled: !!selectedBrand && !!selectedModel }
   );
+
+  useEffect(() => {
+    if (initialData) {
+      setSelectedVehicleType(initialData.vehicleType);
+      setSelectedBrand(initialData.brandCode);
+    }
+  }, [initialData]);
+
+  useEffect(() => {
+    // Once models are loaded, if we have an initial model to set, set it.
+    if (initialData && models?.length && !selectedModel) {
+      setSelectedModel(initialData.modelCode);
+    }
+  }, [initialData, models, selectedModel]);
+
+  useEffect(() => {
+    // Once years are loaded, if we have an initial year to set, set it.
+    if (initialData && years?.length && !selectedYear) {
+      setSelectedYear(initialData.yearCode);
+    }
+  }, [initialData, years, selectedYear]);
 
   const handleVehicleTypeChange = (value: VehicleType) => {
     setSelectedVehicleType(value);
@@ -81,9 +110,9 @@ export const VehicleSearch = ({ onVehicleSelected }: VehicleSearchProps) => {
   }, [selectedVehicleType, selectedBrand, selectedModel, selectedYear, onVehicleSelected]);
 
   const vehicleTypes = [
-    { value: "carros", label: "Carros e utilitários pequenos" },
+    { value: "carros", label: "Carros" },
     { value: "motos", label: "Motos" },
-    { value: "caminhoes", label: "Caminhões e micro-ônibus" },
+    { value: "caminhoes", label: "Caminhões" },
   ];
 
   const findVehicleTypeLabel = (type: string) => vehicleTypes.find(v => v.value === type)?.label ?? "";

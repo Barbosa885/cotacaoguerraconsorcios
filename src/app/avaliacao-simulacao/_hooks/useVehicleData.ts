@@ -28,38 +28,24 @@ export const useVehicleData = () => {
   const [vehicleData, setVehicleData] = useState<VehicleData>(null);
   const [selectedVehicleData, setSelectedVehicleData] = useState<SelectedVehicleData>(null);
 
+  const vehicleType = searchParams.get('vehicleType') as VehicleType | null;
+  const brandCode = searchParams.get('brandCode');
+  const modelCode = searchParams.get('modelCode');
+  const yearCode = searchParams.get('yearCode');
+
+  const initialVehicleSelection = 
+    (vehicleType && brandCode && modelCode && yearCode)
+      ? { vehicleType, brandCode, modelCode, yearCode }
+      : null;
+
   const { data: fetchedVehicleData, isLoading: isLoadingPrice } = api.fipe.getPrice.useQuery(
     selectedVehicleData,
     { enabled: !!selectedVehicleData }
   );
 
   useEffect(() => {
-    const urlParams = {
-      modelo: searchParams.get('modelo'),
-      valor: searchParams.get('valor'),
-      valorFormatado: searchParams.get('valorFormatado'),
-      combustivel: searchParams.get('combustivel'),
-      ano: searchParams.get('ano'),
-      codigoFipe: searchParams.get('codigoFipe'),
-      referencia: searchParams.get('referencia'),
-      // Marca não vem da URL, então buscamos do fetch ou deixamos vazio
-      marca: fetchedVehicleData?.Marca ?? ''
-    };
-    
-    if (urlParams.modelo && urlParams.valor) {
-      const valorNumerico = parseFloat(urlParams.valor.replace('.', '')) ?? 0;
-      setVehicleData({
-        modelo: urlParams.modelo,
-        combustivel: urlParams.combustivel ?? '',
-        ano: urlParams.ano ?? '',
-        codigoFipe: urlParams.codigoFipe ?? '',
-        valor: urlParams.valor ?? '',
-        valorFormatado: urlParams.valorFormatado ?? '',
-        valorNumerico,
-        referencia: urlParams.referencia ?? '',
-        marca: urlParams.marca,
-      });
-    } else if (fetchedVehicleData) {
+    // Prioriza os dados buscados por uma seleção na página
+    if (fetchedVehicleData) {
       const valorNumerico = parseFloat(
         fetchedVehicleData.Valor?.replace(/[^\d,]/g, '').replace(',', '.') ?? '0'
       );
@@ -74,6 +60,35 @@ export const useVehicleData = () => {
         referencia: fetchedVehicleData.MesReferencia ?? '',
         marca: fetchedVehicleData.Marca ?? '',
       });
+      return;
+    }
+
+    // Fallback para os parâmetros da URL na montagem inicial
+    const urlParams = {
+      modelo: searchParams.get('modelo'),
+      valorFormatado: searchParams.get('valorFormatado'),
+      combustivel: searchParams.get('combustivel'),
+      ano: searchParams.get('ano'),
+      codigoFipe: searchParams.get('codigoFipe'),
+      referencia: searchParams.get('referencia'),
+      marca: searchParams.get('marca'),
+    };
+    
+    if (urlParams.modelo && urlParams.valorFormatado) {
+      const valorNumerico = parseFloat(
+        urlParams.valorFormatado.replace(/[^\d,]/g, '').replace(',', '.')
+      ) || 0;
+      setVehicleData({
+        modelo: urlParams.modelo,
+        combustivel: urlParams.combustivel ?? '',
+        ano: urlParams.ano ?? '',
+        codigoFipe: urlParams.codigoFipe ?? '',
+        valor: urlParams.valorFormatado,
+        valorFormatado: urlParams.valorFormatado,
+        valorNumerico,
+        referencia: urlParams.referencia ?? '',
+        marca: urlParams.marca ?? '',
+      });
     }
   }, [searchParams, fetchedVehicleData]);
 
@@ -81,5 +96,6 @@ export const useVehicleData = () => {
     vehicleData,
     isLoadingPrice,
     setSelectedVehicleData,
+    initialVehicleSelection,
   };
 };

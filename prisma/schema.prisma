@@ -118,6 +118,7 @@ model VehicleListing {
   price         Int      // Salvar o preço em centavos é uma boa prática, mas para ficar simples, vou usar Int.
   mileage       String
   condition     String   // Ex. 'Excelente', 'Bom', 'Regular', 'Precisa de ajustes'
+  description   String?  // Descrição detalhada fornecida pelo vendedor
   optionals     Json     // Salva o opcionais selecionados como um objeto JSON
 
   // Listing Status

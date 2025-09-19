@@ -15,21 +15,31 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~
 import { Checkbox } from '~/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
 import { Car, Gauge, Calculator, CheckCircle, Loader2 } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '~/components/ui/dialog';
+import { Textarea } from '~/components/ui/textarea';
 
 const conditions = [
-  { id: 'excellent', label: 'Excelente', multiplier: 1.1 },
-  { id: 'good', label: 'Bom', multiplier: 1.0 },
-  { id: 'fair', label: 'Regular', multiplier: 0.9 },
-  { id: 'poor', label: 'Precisa de reparos', multiplier: 0.8 }
+  { id: 'excellent', label: 'Excelente', multiplier: 1.0 },
+  { id: 'good', label: 'Bom', multiplier: 0.9 },
+  { id: 'fair', label: 'Regular', multiplier: 0.8 },
+  { id: 'poor', label: 'Precisa de reparos', multiplier: 0.7 }
 ];
 
 const mileageOptions = [
-  { value: '10000', label: '<= 10.000 km', multiplier: 1.05 },
-  { value: '30000', label: '10.000 - 30.000 km', multiplier: 1.0 },
-  { value: '50000', label: '30.000 - 50.000 km', multiplier: 0.95 },
+  { value: '10000', label: '<= 10.000 km', multiplier: 1.0 },
+  { value: '30000', label: '10.000 - 30.000 km', multiplier: 0.95 },
+  { value: '50000', label: '30.000 - 50.000 km', multiplier: 0.9 },
   { value: '100000', label: '50.000 - 100.000 km', multiplier: 0.85 },
   { value: '150000', label: '>= 100.000 km', multiplier: 0.75 }
 ];
+
+const optionalLabels: Record<string, string> = {
+  multimedia: 'Central Multimídia',
+  sunroof: 'Teto Solar',
+  rearCamera: 'Câmera de Ré',
+  leather: 'Bancos de Couro',
+  navigation: 'Navegador GPS'
+};
 
 interface VehicleEvaluationCardProps {
   vehicleData: VehicleData;
@@ -48,6 +58,8 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
     leather: false,
     navigation: false
   });
+  const [description, setDescription] = useState(""); // New state for description
+  const [isModalOpen, setIsModalOpen] = useState(false); // New state for modal control
 
   const createListing = api.listing.create.useMutation({
     onSuccess: (data) => {
@@ -57,6 +69,8 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
           onClick: () => router.push(`/classificados/${data.id}`),
         },
       });
+      setIsModalOpen(false); // Close modal on success
+      setDescription(""); // Clear description
     },
     onError: (error) => {
       console.error("Erro inesperado: ", error.message);
@@ -74,14 +88,23 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
     const conditionMultiplier = conditions.find(c => c.id === condition)?.multiplier ?? 1;
     const mileageMultiplier = mileageOptions.find(m => m.value === mileage)?.multiplier ?? 1;
     const optionalBonus = Object.values(optionals).filter(Boolean).length * 1000;
-    return Math.round(baseValue * conditionMultiplier * mileageMultiplier + optionalBonus);
+    const calculatedValue = Math.round(baseValue * conditionMultiplier * mileageMultiplier + optionalBonus);
+
+    return Math.min(calculatedValue, baseValue);
   };
 
   const estimatedValue = calculateEstimatedValue();
   const canAnnounce = !!condition && !!mileage && status === 'authenticated';
 
+  // This function now just opens the modal
   const handleAnnounceVehicle = () => {
     if (!vehicleData || !canAnnounce) return;
+    setIsModalOpen(true);
+  };
+
+  // New function to confirm and trigger the mutation
+  const handleConfirmAnnounce = () => {
+    if (!vehicleData || !canAnnounce) return; // Should not happen if button is disabled
 
     createListing.mutate({
       modelName: vehicleData.modelo,
@@ -93,6 +116,7 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
       mileage,
       condition,
       optionals,
+      description, // Pass the new description
     });
   };
 
@@ -149,15 +173,15 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
         <div>
           <Label className="text-base font-medium mb-3 block">Opcionais</Label>
           <div className="space-y-2">
-            {Object.entries(optionals).map(([key, checked]) => (
+            {Object.keys(optionals).map((key) => (
               <div key={key} className="flex items-center space-x-2">
                 <Checkbox 
                   id={key} 
-                  checked={checked} 
+                  checked={optionals[key as keyof typeof optionals]} 
                   onCheckedChange={v => setOptionals(p => ({ ...p, [key]: !!v }))} 
                   className="bg-white" 
                 />
-                <Label htmlFor={key} className="text-sm">{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
+                <Label htmlFor={key} className="text-sm">{optionalLabels[key]}</Label>
               </div>
             ))}
           </div>
@@ -170,27 +194,63 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
         </div>
 
         {status === 'authenticated' ? (
-          <Tooltip> 
-            <TooltipTrigger asChild>
-              <Button 
-                onClick={handleAnnounceVehicle} 
-                disabled={!canAnnounce || createListing.isPending}
-                className="w-full bg-green-500 text-white hover:bg-green-700"
-              >
-                {createListing.isPending ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <CheckCircle className="mr-2 h-4 w-4" />
-                )}
-                {createListing.isPending ? 'Anunciando...' : 'Anuncie seu veículo'}
-              </Button>
-            </TooltipTrigger>
-            {!canAnnounce && (
-              <TooltipContent>
-                <p>Preencha os campos de condição e quilometragem para anunciar.</p>
-              </TooltipContent>
-            )}
-          </Tooltip>
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}> 
+            <Tooltip> 
+              <TooltipTrigger asChild>
+                <DialogTrigger asChild>
+                  <Button 
+                    onClick={handleAnnounceVehicle} 
+                    disabled={!canAnnounce || createListing.isPending}
+                    className="w-full bg-green-500 text-white hover:bg-green-700"
+                  >
+                    {createListing.isPending ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <CheckCircle className="mr-2 h-4 w-4" />
+                    )}
+                    {createListing.isPending ? 'Anunciando...' : 'Anuncie seu veículo'}
+                  </Button>
+                </DialogTrigger>
+              </TooltipTrigger>
+              {!canAnnounce && (
+                <TooltipContent>
+                  <p>Preencha os campos de condição e quilometragem para anunciar.</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Detalhes do Anúncio</DialogTitle>
+                <DialogDescription>
+                  Adicione uma descrição detalhada para o seu veículo.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <Textarea
+                  id="description"
+                  placeholder="Ex: Carro de único dono, todas as revisões em dia, nunca batido..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="col-span-3 h-32"
+                />
+              </div>
+              <DialogFooter>
+                <Button 
+                  type="submit" 
+                  onClick={handleConfirmAnnounce} 
+                  disabled={createListing.isPending}
+                  className="text-white hover:bg-green-700 bg-green-500"
+                >
+                  {createListing.isPending ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <CheckCircle className="mr-2 h-4 w-4" />
+                  )}
+                  {'Confirmar e Anunciar'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         ) : (
           <Button onClick={() => router.push('/login')} className="w-full">
             Faça login para anunciar

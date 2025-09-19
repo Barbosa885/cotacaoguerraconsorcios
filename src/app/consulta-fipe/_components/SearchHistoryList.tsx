@@ -21,12 +21,12 @@ const SearchHistoryList = () => {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="mx-auto max-w-sm space-y-2">
       {history.map((item) => (
-        <div key={item.id} className="flex items-center justify-between rounded-lg border bg-white p-3">
+        <div key={item.id} className="flex items-center justify-between rounded-lg border bg-white p-2">
           <div>
-            <p className="font-semibold">{item.modelName}</p>
-            <p className="text-sm text-gray-600">{item.brandName} - {item.year}</p>
+            <p className="text-sm font-semibold">{item.modelName}</p>
+            <p className="text-xs text-gray-600">{item.brandName} - {item.year}</p>
           </div>
           <Badge variant="outline" className="text-blue-700">{item.price}</Badge>
         </div>
