@@ -43,17 +43,16 @@ export default function PricePage() {
   const addSearchHistory = api.searchHistory.add.useMutation();
 
   useEffect(() => {
-    if (vehicleData && status === 'authenticated') {
+    if (vehicleData && status === 'authenticated' && selectedVehicleData) {
       addSearchHistory.mutate({
-        vehicleType: selectedVehicleData!.vehicleType,
+        vehicleType: selectedVehicleData.vehicleType,
         brandName: vehicleData.Marca,
         modelName: vehicleData.Modelo,
         year: vehicleData.AnoModelo.toString(),
         price: vehicleData.Valor,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehicleData, status]);
+  }, [vehicleData, status, addSearchHistory, selectedVehicleData]);
 
   const handleNavigateToEvaluation = (vehicleData: VehicleDataType, selectedVehicleData: SelectedVehicleDataType) => {
     if (!vehicleData || !selectedVehicleData) return '#';
@@ -80,7 +79,7 @@ export default function PricePage() {
       <div className="flex flex-col items-center">
         <h1 className="mb-4 text-center text-3xl font-bold sm:text-4xl">Consulta de preço FIPE</h1>
         <p className="mb-6 max-w-2xl text-center text-base sm:text-lg text-gray-500">
-          Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua preferência. Você também pode utilizar o campo "busca" em cada etapa do formulário para localizar a informação desejada mais rapidamente.
+          Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua preferência. Você também pode utilizar o campo {`&#34;`}busca{`&#34;`} em cada etapa do formulário para localizar a informação desejada mais rapidamente.
         </p>
       </div>
 
