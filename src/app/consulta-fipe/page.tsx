@@ -53,7 +53,7 @@ export default function PricePage() {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehicleData, status]); // Deliberately not including addSearchHistory to avoid re-triggering
+  }, [vehicleData, status]);
 
   const handleNavigateToEvaluation = (vehicleData: VehicleDataType, selectedVehicleData: SelectedVehicleDataType) => {
     if (!vehicleData || !selectedVehicleData) return '#';
@@ -76,32 +76,32 @@ export default function PricePage() {
   };
 
   return (
-    <div className="flex flex-col justify-center mx-auto min-h-screen max-w-7xl p-4">
-      <div className="grid grid-cols-1 gap-12">
-        {/* Coluna Principal */}
-        <div className="">
-          <div className="flex flex-col items-center">
-            <h1 className="mb-4 text-center text-4xl font-bold">Consulta de preço FIPE</h1>
-            <p className="mb-6 max-w-2xl text-center text-gray-500">
-              Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua preferência. Você também pode utilizar o campo {`&quot`}busca{`&quot`} em cada etapa do formulário para localizar a informação desejada mais rapidamente.
-            </p>
-          </div>
+    <div className="flex flex-col justify-center mx-auto min-h-screen p-4 max-w-7xl">
+      <div className="flex flex-col items-center">
+        <h1 className="mb-4 text-center text-3xl font-bold sm:text-4xl">Consulta de preço FIPE</h1>
+        <p className="mb-6 max-w-2xl text-center text-base sm:text-lg text-gray-500">
+          Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua preferência. Você também pode utilizar o campo "busca" em cada etapa do formulário para localizar a informação desejada mais rapidamente.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
           <VehicleSearch onVehicleSelected={setSelectedVehicleData} />
 
           <div className="mt-8">
             {!selectedVehicleData && !isLoadingValor && <EmptyState subText="Selecione o tipo de veículo, marca, modelo e ano para consultar o valor atualizado na tabela FIPE." text="Nenhum veículo selecionado" />}
             {isLoadingValor && <SkeletonCarDetailsCard />}
 
-            {vehicleData && 
+            {vehicleData &&
               <div>
                 <CarDetailsCard vehicleData={vehicleData} />
                 <p className="mt-4 text-center text-sm font-light text-gray-400">
                   * Faça a avaliação do seu veículo ou simule um financiamento abaixo.
                 </p>
                 <div className="mt-14 flex justify-center">
-                  <Button 
-                    size="lg" 
-                    className="bg-blue-700 px-4 py-6 text-lg font-semibold text-white hover:bg-blue-800"
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-blue-700 px-4 py-6 text-lg font-semibold text-white hover:bg-blue-800"
                     onClick={() => handleNavigateToEvaluation(vehicleData, selectedVehicleData)}
                   >
                     <span className="flex items-center">
@@ -116,11 +116,10 @@ export default function PricePage() {
           </div>
         </div>
 
-        {/* Coluna do Histórico */}
-        <div className="flex flex-col w-full items-center">
-          <div className="max-w-xl lg:min-w-2xl">
+        <div>
+          <div className="lg:sticky lg:top-8">
             {status === 'authenticated' && (
-              <Card className="sticky">
+              <Card className="border">
                 <CardHeader>
                   <CardTitle className="flex justify-center items-center">
                     <History className="mr-2 h-5 w-5" />
@@ -133,7 +132,7 @@ export default function PricePage() {
               </Card>
             )}
             {status === 'unauthenticated' && (
-               <Card className="sticky border-dashed">
+              <Card className="border-dashed">
                 <CardHeader>
                   <CardTitle className="flex justify-center items-center text-gray-600">
                     <History className="mr-2 h-5 w-5" />

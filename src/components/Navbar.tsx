@@ -90,10 +90,10 @@ export const Navbar = () => {
   }
 
   return (
-      <div className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4">
+      <div className="fixed top-0 left-0 right-0 z-50">
         <div className="pt-2 sm:pt-3">
           <nav className={`
-            mx-auto max-w-7xl
+            mx-auto max-w-[90%] lg:max-w-[85%]
             bg-white/90 backdrop-blur-md
             rounded-xl sm:rounded-2xl border border-gray-200/50
             transition-all duration-300 ease-in-out

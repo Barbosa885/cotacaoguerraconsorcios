@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 export const ContactForm = () => {
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto border border-gray-200">
+    <div className="bg-white lg:p-4 rounded-lg shadow-md max-w-md lg:max-w-lg mx-auto border border-gray-200">
       <div className="mb-6">
         <Image src="/imgs/GG-PRETOHORIZONTAL.png" alt="Contact Us" width={200} height={200} className="mx-auto mb-6" />
       </div>

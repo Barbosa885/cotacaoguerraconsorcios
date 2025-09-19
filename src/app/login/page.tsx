@@ -118,8 +118,8 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-white to-gray-300 flex items-center justify-center p-4">
+      <div className="w-full max-w-md lg:max-w-lg">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center">
