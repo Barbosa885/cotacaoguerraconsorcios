@@ -45,7 +45,7 @@ const VehicleEvaluationContent = () => {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 pt-26">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Avalie seu Veículo e Simule Financiamento</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Avalie seu Veículo ou Simule um Financiamento</h1>
             <p className="text-lg text-gray-600">Descubra o valor do seu veículo e simule as melhores condições de financiamento</p>
           </div>
 

@@ -129,7 +129,7 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
     <Card className="bg-gray-200">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-gray-800">Avalie seu Veículo</CardTitle>
-        <p className="text-sm text-gray-600">Descubra a cotação estimada do seu veículo baseado no tempo de uso e o valor atual da FIPE</p>
+        <p className="text-sm text-gray-600">Descubra a cotação estimada do seu veículo baseado nas condições condições do veículo e tempo de uso</p>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="bg-white p-4 rounded-lg">
@@ -216,9 +216,12 @@ export const VehicleEvaluationCard = ({ vehicleData }: VehicleEvaluationCardProp
                 </DialogTrigger>
               </TooltipTrigger>
               {!canAnnounce && (
-                <TooltipContent>
-                  <p>Preencha os campos de condição e quilometragem para anunciar.</p>
-                </TooltipContent>
+                <div className="flex flex-col justify-center align-center text-center">
+                <p className="font-medium text-sm text-gray-500"> *Preencha os campos de condição e quilometragem para anunciar.</p>
+                  <TooltipContent>
+                    <p>Preencha os campos de condição e quilometragem para anunciar.</p>
+                  </TooltipContent>
+                </div>
               )}
             </Tooltip>
             <DialogContent className="sm:max-w-[425px]">

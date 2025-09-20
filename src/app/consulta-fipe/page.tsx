@@ -105,8 +105,8 @@ export default function PricePage() {
                 vehicleData && "hidden md:block"
               )}
             >
-              <h1 className="text-3xl font-bold sm:text-4xl">Consulta de preço FIPE</h1>
-              <p className="mx-auto mb-8 max-w-2xl text-center text-sm md:text-base text-gray-500 lg:text-lg">
+              <h1 className="text-3xl font-bold pb-6 sm:text-4xl">Consulta de preço FIPE</h1>
+              <p className="mx-auto mb-2 max-w-2xl text-center text-sm md:text-base text-gray-500 lg:text-lg">
                 Selecione primeiro a marca do veículo e, em seguida, o modelo e o ano conforme sua preferência.
               </p>
             </div>
@@ -151,7 +151,7 @@ export default function PricePage() {
             <div className="mt-6 flex flex-col items-center">
               <CarDetailsCard vehicleData={vehicleData} />
               <p className="mt-4 text-center text-sm font-light text-gray-400">
-                * Faça a avaliação do seu veículo ou simule um financiamento abaixo.
+                * Faça a avaliação do seu veículo ou simule um financiamento clicando abaixo.
               </p>
               <div className="mt-8 flex w-full justify-center">
                 <Button

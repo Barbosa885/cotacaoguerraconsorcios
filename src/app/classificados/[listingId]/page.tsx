@@ -24,7 +24,7 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="flex flex-col items-center justify-center mx-auto p-4 pt-8 max-w-4xl min-h-screen">
-      <div className="h-96 w-4xl bg-gray-200 rounded-lg flex items-center justify-center mb-8">
+      <div className="h-96 min-w-4xl bg-gray-200 rounded-lg flex items-center justify-center mb-8">
         <p className="text-gray-500">Nenhuma imagem disponível</p>
       </div>
 
