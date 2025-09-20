@@ -6,13 +6,13 @@ Além de permitir o usuário anunciar seu veículo pelo valor avaliado.
 
 ---
 
-## 🌐 Live Demo
-🔗 Acesse o projeto em produção:  
-👉 [avaliacar.barbosa.zip](https://avaliacar.barbosa.zip)
+## Live Demo
+   Acesse o projeto em produção:  
+🔗 [avaliacar.barbosa.zip](https://avaliacar.barbosa.zip)
 
 ---
 
-## ✅ Requisitos do Desafio
+## Requisitos do Desafio
 
 A aplicação foi desenvolvida para atender a todos os requisitos obrigatórios e desejáveis especificados no desafio técnico.
 
@@ -29,7 +29,7 @@ A aplicação foi desenvolvida para atender a todos os requisitos obrigatórios 
 
 ---
 
-## ✨ Principais Funcionalidades
+## Principais Funcionalidades
 
 A ideia foi criar algo **direto e prático**, que qualquer pessoa consiga usar sem complicação.  
 
@@ -39,35 +39,35 @@ A ideia foi criar algo **direto e prático**, que qualquer pessoa consiga usar s
   - Simule financiamentos de forma rápida.  
 
 - **Com login (Google)**  
-  - 🔑 Login simples e seguro usando apenas sua conta do Google.  
-  - 📢 Anuncie seus veículos na plataforma.  
-  - 📜 Consulte seu **histórico das últimas 3 pesquisas** feitas. 
+  - Login simples e seguro usando apenas sua conta do Google.  
+  - Anuncie seus veículos na plataforma.  
+  - Consulte seu **histórico das últimas 3 pesquisas** feitas. 
 
 ---
 
-## 🛠️ Stack utilizada
+## Stack utilizada
 
 O projeto foi desenvolvido com a **T3 Stack**.
 
 ### Frontend
-- ⚛️ **Next.js**  
-- 🟦 **TypeScript**
-- 🎨 **Tailwind CSS**
-- 🧩 **Shadcn UI** 
+- **Next.js**  
+- **TypeScript**
+- **Tailwind CSS**
+- **Shadcn UI** 
 
 ### Backend & API
-- 🔗 **tRPC**
-- 🗄️ **Prisma**
+- **tRPC**
+- **Prisma**
 
 ### Banco de Dados
-- 🟢 **Neon DB** – PostgreSQL serverless, otimizado para alta disponibilidade.  
+- **Neon DB** – PostgreSQL serverless, otimizado para alta disponibilidade.  
 
 ### Infraestrutura
-- ▲ **Vercel** – Deploy.  
+- **Vercel** – Deploy.  
 
 ---
 
-## ⚙️ Como Rodar Localmente
+## Como Rodar Localmente
 
 1. **Clone o repositório**
    ```bash
@@ -100,6 +100,6 @@ npx prisma db push
 npm run dev
 ```
 
-## 📝 Próximos Passos & Melhorias
-  - 💬 Comunicação Direta – Implementar chat entre vendedores e interessados.
-  - 🛒 Gestão de Anúncios – CRUD completo (edição e exclusão).
+## Próximos Passos & Melhorias
+  - Comunicação Direta – Implementar chat entre vendedores e interessados.
+  - Gestão de Anúncios – CRUD completo (edição e exclusão).
