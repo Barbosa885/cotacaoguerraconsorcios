@@ -1,29 +1,87 @@
-# Create T3 App
+# 🚀 AvaliaCar
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+**AvaliaCar** é uma plataforma intuitiva e completa para **pesquisa de preços de veículos**, **avaliação de mercado** e **simulação de financiamentos**.  
+Com uma interface moderna, o projeto visa simplificar o processo de compra e venda de veículos, oferecendo **dados oficiais da Tabela FIPE** e ferramentas inteligentes para tomada de decisão.
 
-## What's next? How do I make an app with this?
+---
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## 🌐 Live Demo
+🔗 Acesse o projeto em produção:  
+👉 [avaliacar.barbosa.zip](https://avaliacar.barbosa.zip)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+---
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## ✨ Principais Funcionalidades
 
-## Learn More
+A plataforma foi projetada para ser simples e direta, permitindo uso imediato sem necessidade de login inicial.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- **Acesso Anônimo**
+  - Pesquise valores de mercado (Tabela FIPE).
+  - Avalie preços com base em quilometragem e condição do veículo.
+  - Simule opções de financiamento.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- **Acesso Autenticado (Login via Google)**
+  - 🔑 **Login Simplificado**: Exclusivamente com Google, rápido e seguro.
+  - 📢 **Anúncio de Veículos**: Usuários logados podem anunciar veículos.
+  - 📜 **Histórico de Consultas**: Usuários autenticados têm acesso às últimas 3 pesquisas realizadas.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+---
 
-## How do I deploy this?
+## 🛠️ Stack Tecnológica
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+O projeto foi desenvolvido com a **T3 Stack**, garantindo performance e escalabilidade.
+
+### Frontend
+- ⚛️ **Next.js** – Framework React com App Router e SSR.  
+- 🟦 **TypeScript** – Tipagem estática e segura.  
+- 🎨 **Tailwind CSS** – Estilização rápida e responsiva.  
+- 🧩 **Shadcn UI** – Componentes acessíveis e modernos.  
+
+### Backend & API
+- 🔗 **tRPC** – APIs seguras e tipadas de ponta a ponta.  
+- 🗄️ **Prisma** – ORM moderno para modelagem e acesso ao banco.  
+
+### Banco de Dados
+- 🟢 **Neon DB** – PostgreSQL serverless, otimizado para alta disponibilidade.  
+
+### Infraestrutura
+- ▲ **Vercel** – Deploy automático e eficiente.  
+
+---
+
+## ⚙️ Como Rodar Localmente
+
+1. **Clone o repositório**
+   ```bash
+   git clone [COLOQUE O LINK DO SEU REPOSITÓRIO]
+    ```
+
+2.**Instale as dependências**
+```bash
+npm install
+```
+
+3. **Configure o ambiente**
+- Crie um arquivo `.env` na raiz do projeto.
+- Adicione as variáveis necessárias:
+```bash
+DATABASE_URL="[SUA URL DO BANCO DE DADOS]"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="[CHAVE SECRETA]"
+GOOGLE_CLIENT_ID="[ID DO CLIENTE DO GOOGLE]"
+GOOGLE_CLIENT_SECRET="[SEGREDO DO CLIENTE DO GOOGLE]"
+```
+
+4. **Execute as migrações do Prisma**
+```bash
+npx prisma db push
+```
+
+5. **Inicie o servidor**
+```bash
+npm run dev
+```
+
+## 📝 Próximos Passos & Melhorias
+  - 💬 Comunicação Direta – Implementar chat entre vendedores e interessados.
+  - 🛒 Gestão de Anúncios – CRUD completo (edição e exclusão).
