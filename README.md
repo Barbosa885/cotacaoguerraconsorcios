@@ -70,9 +70,9 @@ O projeto foi desenvolvido com a **T3 Stack**.
 ## Como Rodar Localmente
 
 1. **Clone o repositório**
-   ```bash
-   git clone [COLOQUE O LINK DO SEU REPOSITÓRIO]
-    ```
+```bash
+git clone [COLOQUE O LINK DO SEU REPOSITÓRIO]
+```
 
 2.**Instale as dependências**
 ```bash
