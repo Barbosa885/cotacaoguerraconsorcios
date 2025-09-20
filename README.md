@@ -1,7 +1,8 @@
-# 🚀 AvaliaCar
+# 🚗 AvaliaCar
 
-**AvaliaCar** é uma plataforma intuitiva e completa para **pesquisa de preços de veículos**, **avaliação de mercado** e **simulação de financiamentos**.  
-Com uma interface moderna, o projeto visa simplificar o processo de compra e venda de veículos, oferecendo **dados oficiais da Tabela FIPE** e ferramentas inteligentes para tomada de decisão.
+O **AvaliaCar** é uma plataforma feita para facilitar a vida de quem quer **comprar ou vender um veículo**.  
+Com uma interface simples e moderna, ele permite consultar preços da **Tabela FIPE**, avaliar o valor real de um veículo e até simular diferentes opções de financiamento.
+Além de permitir o usuário anunciar seu veículo pelo valor avaliado.  
 
 ---
 
@@ -13,39 +14,39 @@ Com uma interface moderna, o projeto visa simplificar o processo de compra e ven
 
 ## ✨ Principais Funcionalidades
 
-A plataforma foi projetada para ser simples e direta, permitindo uso imediato sem necessidade de login inicial.
+A ideia foi criar algo **direto e prático**, que qualquer pessoa consiga usar sem complicação.  
 
-- **Acesso Anônimo**
-  - Pesquise valores de mercado (Tabela FIPE).
-  - Avalie preços com base em quilometragem e condição do veículo.
-  - Simule opções de financiamento.
+- **Sem login (Acesso Anônimo)**  
+  - Pesquise preços da Tabela FIPE.  
+  - Avalie o valor de um carro levando em conta quilometragem e condição.  
+  - Simule financiamentos de forma rápida.  
 
-- **Acesso Autenticado (Login via Google)**
-  - 🔑 **Login Simplificado**: Exclusivamente com Google, rápido e seguro.
-  - 📢 **Anúncio de Veículos**: Usuários logados podem anunciar veículos.
-  - 📜 **Histórico de Consultas**: Usuários autenticados têm acesso às últimas 3 pesquisas realizadas.
+- **Com login (Google)**  
+  - 🔑 Login simples e seguro usando apenas sua conta do Google.  
+  - 📢 Anuncie seus veículos na plataforma.  
+  - 📜 Consulte seu **histórico das últimas 3 pesquisas** feitas. 
 
 ---
 
-## 🛠️ Stack Tecnológica
+## 🛠️ Stack utilizada
 
-O projeto foi desenvolvido com a **T3 Stack**, garantindo performance e escalabilidade.
+O projeto foi desenvolvido com a **T3 Stack**.
 
 ### Frontend
-- ⚛️ **Next.js** – Framework React com App Router e SSR.  
-- 🟦 **TypeScript** – Tipagem estática e segura.  
-- 🎨 **Tailwind CSS** – Estilização rápida e responsiva.  
-- 🧩 **Shadcn UI** – Componentes acessíveis e modernos.  
+- ⚛️ **Next.js**  
+- 🟦 **TypeScript**
+- 🎨 **Tailwind CSS**
+- 🧩 **Shadcn UI** 
 
 ### Backend & API
-- 🔗 **tRPC** – APIs seguras e tipadas de ponta a ponta.  
-- 🗄️ **Prisma** – ORM moderno para modelagem e acesso ao banco.  
+- 🔗 **tRPC**
+- 🗄️ **Prisma**
 
 ### Banco de Dados
 - 🟢 **Neon DB** – PostgreSQL serverless, otimizado para alta disponibilidade.  
 
 ### Infraestrutura
-- ▲ **Vercel** – Deploy automático e eficiente.  
+- ▲ **Vercel** – Deploy.  
 
 ---
 
