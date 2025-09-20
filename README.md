@@ -12,6 +12,23 @@ Além de permitir o usuário anunciar seu veículo pelo valor avaliado.
 
 ---
 
+## ✅ Requisitos do Desafio
+
+A aplicação foi desenvolvida para atender a todos os requisitos obrigatórios e desejáveis especificados no desafio técnico.
+
+### Requisitos Obrigatórios
+- [x] **Formulário de Contato:** Implementado tanto na página `/fale-conosco` quanto na tela de avaliação e financiamento.  
+- [x] **Responsividade:** O design é totalmente responsivo, garantindo uma experiência otimizada em telas de celulares e notebooks.  
+- [x] **Inclusão da Logo:** A logo da empresa está presente de forma proeminente no cabeçalho em todas as páginas e em alguns formulários específicos.  
+- [x] **Stack Tecnológica:** Desenvolvido com **Next.js**, **TypeScript** e componentes **Shadcn UI**, conforme solicitado.  
+
+### Aspectos Desejáveis
+- [x] **Simulação Financeira:** Funcionalidade para calcular valores de parcelas na página **Avalie & Simule**.  
+- [x] **Tratamento de Erros:** Requisições à API e login possuem tratamento de erros com **feedback visual via toast** do Shadcn UI.  
+- [x] **Tratamento de Requisições à API:** Consumo da API da FIPE via **tRPC**.
+
+---
+
 ## ✨ Principais Funcionalidades
 
 A ideia foi criar algo **direto e prático**, que qualquer pessoa consiga usar sem complicação.  
